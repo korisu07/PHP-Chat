@@ -7,7 +7,7 @@
 </head>
 <body>
   <article>
-    <form action="index.php" method="post">
+    <form action="/" method="post">
       <input type="text" name="chat" id="chat">
       <button>送信</button>
     </form>
