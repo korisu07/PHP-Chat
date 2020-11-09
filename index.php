@@ -12,7 +12,27 @@
       <button>送信</button>
     </form>
 
-    <?php echo $_POST['chat'] ?>
+    <?php 
+    $chat_log = [
+      'first massage' => 'ここにチャットログが表示されます。'
+    ];
+
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      if($chat_log['first massage'] != null){
+        unset($chat_log['first massage']);
+      }
+      $i = 0;
+      $chat_log = array_merge($chat_log, array($i => $_POST['chat']) );
+      $i =+ 1;
+    }
+    
+    var_dump($chat_log);
+
+    foreach ($chat_log as $key => $value) {
+      echo '<p>'.$value.'</p>';
+    }
+    ?>
   </article>
 </body>
 </html>
