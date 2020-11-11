@@ -19,12 +19,18 @@
 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      if($chat_log['first massage'] != null){
+      
+      if(is_null($_POST['chat']) || $_POST['chat'] === ''){
+        echo '内容が入力されていません';
+        return false;
+      }
+      else if($chat_log['first massage'] != null){
         unset($chat_log['first massage']);
       }
-      $i = 0;
-      $chat_log = array_merge($chat_log, array($i => $_POST['chat']) );
-      $i =+ 1;
+      
+      $lineNumber = count($chat_log);
+      $lineNumber =+ 1;
+      $chat_log[$lineNumber] = $_POST['chat'];
     }
     
     var_dump($chat_log);
