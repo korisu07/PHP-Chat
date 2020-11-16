@@ -1,31 +1,38 @@
 
     <?php 
-    $chat_logs = [
-      'first massage' => 'ここにチャットログが表示されます。'
-    ];
+
+    include dirname(__FILE__) . '/../connect/connect.php';
 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
-      if(is_null($_POST['chat']) || $_POST['chat'] === ''){
+      if(is_null($_POST['user_name']) || $_POST['user_name'] === ''){
+        die('ユーザー名を入力してください');
+      }
+      if(is_null($_POST['chat_message']) || $_POST['chat_message'] === ''){
         die('内容が入力されていません');
       }
-      else if($chat_logs['first massage'] != null){
-        unset($chat_logs['first massage']);
-      }
 
-      $lineNumber = count($chat_logs);
-      $lineNumber =+ 1;
-      $chat_logs[$lineNumber] = $_POST['chat'];
+      header('Location: /', 307);
 
-      unset($lineNumber);
-    }
-    
-    var_dump($chat_logs);
+      // else if($chat_logs['first massage'] != null){
+      //   unset($chat_logs['first massage']);
+      // }
 
-    foreach ($chat_logs as $log) {
-      echo '<p>'.$log.'</p>';
-      unset($log);
+      $user_name = null;
+      $chat_message = null;
+
+      $statement = $pdo->prepare('INSERT INTO chat_logs(user_name, message) VALUES(:user_name, :chat_message)');
+
+      $user_name = $_POST['user_name'];
+      $chat_message = $_POST['chat_message'];
+
+      $statement->bindValue(':user_name', $user_name, PDO::PARAM_STR);
+      $statement->bindValue(':chat_message', $chat_message, PDO::PARAM_STR);
+
+      $statement->execute();
+
+      exit;
     }
 
     ?>
