@@ -8,30 +8,19 @@
   <link rel="stylesheet" href="inc/css/style.min.css">
 </head>
 <body>
+
+<?php require_once dirname(__FILE__) . '/inc/php/function.php' ?>
+
   <header>
     <div class="container">
 
-      <form action="/" method="post">
-        <div class="header_box">
-          <label for="user_name">ユーザー名：</label>
-          <input type="text" name="user_name" id="chat">
-        </div>
-
-        <div class="header_box">
-          <label for="chat_message">メッセージ：</label>
-          <input type="text" name="chat_message" id="chat">
-        </div>
-
-        <button>発言する</button>
-      </form>
-
+      <?php include dirname(__FILE__) . '/inc/php/header.php' ?>
+      
     </div>
   </header>
   
   <article>
     <div class="container">
-
-      <?php require_once dirname(__FILE__) . '/inc/php/function.php' ?>
       
       <div class="chat_logs_view">
         <?php while ($log_value = $access_process->fetch(PDO::FETCH_ASSOC)): ?>
@@ -46,5 +35,11 @@
     </div>
 
   </article>
+
+  <footer>
+    <div class="container">
+      chat.app 2020 
+    </div>
+  </footer>
 </body>
 </html>
