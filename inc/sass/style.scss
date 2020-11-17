@@ -2,6 +2,7 @@
 
 @import "layout_param";
 
+// 基本レイアウト
 *{
   margin: 0;
   padding: 0;
@@ -12,6 +13,8 @@ body{
   font-family: sans-serif;
   color: $base_font_color;
   background-color: $base_bg_color;
+  width: 100%;
+  height: 100vh;
 }
 li{
   list-style-type: none;
@@ -20,7 +23,31 @@ li{
   max-width: 1024px;
   margin: 0 auto;
 }
+article{
+  width: 100%;
+  height: calc(100vh - #{$footer_heigth});
+  padding-top: $header_height + 20px;
+}
+footer{
+  position: fixed;
+  width: 100%;
+  height: $footer_heigth;
+  line-height: $footer_lineheight;
 
+  padding:calc((#{$footer_heigth} - #{$footer_lineheight}) / 2) 0;
+  background-color: $footer_bg_color;
+
+  border-top: 2px solid darken($color: $footer_bg_color, $amount: 20%);
+}
+
+// header のレイアウト
+p.attention{
+  z-index: 2;
+  position: fixed;
+  width: 100%;
+  height: 30px;
+  background-color: $base_bg_color;
+}
 
 header{
   position: fixed;
@@ -30,22 +57,44 @@ header{
 
   border-bottom: 2px solid darken($color: $header_bg_color, $amount: 20%);
 
-  .header_box{
-    padding-top: 10px;
-    &:last-of-type{
-      padding-bottom: 10px;
-    }
-  }
+  padding: 30px 0;
+}
+form.chat_post{
+  float: left;
+  width: 70%;
 }
 
-article{
-  width: 100%;
-  min-height: 100vh;
-  padding-top: $header_height + 20px;
+header input[type="submit"]{
+  height: $button_height;
 }
+
+
+.header_box{
+  padding: calc((#{$header_box} - #{$button_height}) / 2) 0;
+  height: $header_box;
+}
+.chat_user{
+  float: right;
+  width: 30%;
+  height: $header_box;
+}
+.chat_user p{
+  padding: calc((#{$header_box} - #{$button_height}) / 2) 0;
+}
+// float を切る
+header::after{
+  content: '';
+  display: block;
+  clear: both;
+}
+
+
+// ログ表示部分のレイアウト
 .chat_logs_view{
   ul{
     display: block;
+    border-bottom:1px solid rgba(129, 194, 222, 0.5);
+    margin-bottom: 30px;
   }
   ul li{
     display: inline-block;
@@ -54,7 +103,6 @@ article{
     }
     &:nth-child(3){
       display: block;
-      margin-bottom: 30px;
     }
   }
 }
