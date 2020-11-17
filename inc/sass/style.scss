@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+@import "layout_param";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: sans-serif;
+  color: $base_font_color;
+  background-color: $base_bg_color;
+}
+li{
+  list-style-type: none;
+}
+.container{
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+
+header{
+  position: fixed;
+  width: 100%;
+  height: $header_height;
+  background-color: $header_bg_color;
+
+  border-bottom: 2px solid darken($color: $header_bg_color, $amount: 20%);
+
+  .header_box{
+    padding-top: 10px;
+    &:last-of-type{
+      padding-bottom: 10px;
+    }
+  }
+}
+
+article{
+  width: 100%;
+  min-height: 100vh;
+  padding-top: $header_height + 20px;
+}
+.chat_logs_view{
+  ul{
+    display: block;
+  }
+  ul li{
+    display: inline-block;
+    &:nth-child(1)::after{
+      content: 'さんの発言：';
+    }
+    &:nth-child(3){
+      display: block;
+      margin-bottom: 30px;
+    }
+  }
+}
