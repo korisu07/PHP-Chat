@@ -1,9 +1,23 @@
 
     <?php 
 
-    include dirname(__FILE__) . '/../connect/connect.php';
+    include dirname(__FILE__) . '/connect/connect.php';
+
+    // チャットログを表示
+    try{
+      $access_process = $pdo->prepare('SELECT * FROM chat_logs ORDER BY id DESC LIMIT 20');
+      $access_process->execute();
+
+    } catch(PDOException $e){
+      echo 'チャットログの表示に失敗しました。';
+    }
+
+    function escape($escape_value){
+      return htmlspecialchars(strval($escape_value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
 
 
+    // チャットが表示された時の処理
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
       if(is_null($_POST['user_name']) || $_POST['user_name'] === ''){
@@ -14,10 +28,6 @@
       }
 
       header('Location: /', 307);
-
-      // else if($chat_logs['first massage'] != null){
-      //   unset($chat_logs['first massage']);
-      // }
 
       $user_name = null;
       $chat_message = null;
@@ -32,6 +42,7 @@
 
       $statement->execute();
 
+      unset($statement);
       exit;
     }
 
