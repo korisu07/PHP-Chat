@@ -16,6 +16,20 @@
       return htmlspecialchars(strval($escape_value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 
+    function login_function($login_value) {
+      $login_user = null;
+      $password = null;
+
+      $statement = $pdo->prepare('INSERT INTO login_user(login_user, password) VALUES(:login_user, :password)');
+
+      $login_user = $login_value;
+      $password = 'test';
+
+      $statement->bindValue(':login_user', $login_user, PDO::PARAM_STR);
+      $statement->bindValue(':password', $password, PDO::PARAM_STR);
+
+      $statement->execute();
+  }
 
     // チャットが送信された時の処理
 
@@ -31,6 +45,7 @@
         else if($_POST['user_name']){
           header('Location: /', 307);
           setcookie('Your_name', $_POST['user_name'], time()+3600);
+          login_function($_POST['user_name']);
         }
       }
       
