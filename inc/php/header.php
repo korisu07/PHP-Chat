@@ -29,7 +29,7 @@
     
     <?php 
       if(isset($_COOKIE['Your_name'])){
-        echo '<p>' . $_COOKIE['Your_name'] . '　さんとして入室中</p>' .
+        echo '<p>' . htmlspecialchars($_COOKIE['Your_name']) . '　さんとして入室中</p>' .
       
         '<form action="/" method="post">
           <input type="submit" name="chat_exit" id="chat_exit" value="退室する">
