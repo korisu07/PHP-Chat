@@ -25,9 +25,9 @@
       <div class="chat_logs_view">
         <?php while ($log_value = $access_process->fetch(PDO::FETCH_ASSOC)): ?>
         <ul>
-          <li><?= escape($log_value['user_name']); ?></li>
-          <li><?= escape($log_value['message']); ?></li>
-          <li><?= escape($log_value['date']); ?></li>
+          <li><?= log_view($log_value['user_name']); ?></li>
+          <li><?= log_view($log_value['message']); ?></li>
+          <li><?= log_view($log_value['date']); ?></li>
         </ul>
         <?php endwhile; ?>
       </div>
