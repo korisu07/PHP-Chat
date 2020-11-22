@@ -49,7 +49,7 @@
 
     <span>入室中：</span>
     <?php while ($log_value = $user_list->fetch(PDO::FETCH_ASSOC)): ?>
-      <span><?= view($log_value['login_user']); ?>　さん</span>
+      <span><?=view($log_value['login_user']);?> さん ★ </span>
     <?php endwhile; ?>
 
     <?php 
