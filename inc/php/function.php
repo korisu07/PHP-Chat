@@ -1,5 +1,5 @@
-
-    <?php 
+  <?php 
+    header("Content-type: text/html; charset=utf-8");
 
     include dirname(__FILE__) . '/connect/connect.php';
 
@@ -29,36 +29,40 @@
           return false;
         }//名前が入力された場合
         else if($_POST['user_name']){
-          header('Location: /', 307);
-          
+          session_start();
+
           $login_user = null;
           $random_id = null;
     
-          $statement = $pdo->prepare('INSERT INTO login_user(`login_user`, `random_id`) VALUES(:login_user, :random_id)');
+          // $statement = $pdo->prepare('INSERT INTO login_user(`login_user`, `random_id`) VALUES(:login_user, :random_id)');
     
           $login_user = $_POST['user_name'];
           $random_id = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 10);
     
-          $statement->bindValue(':login_user', $login_user, PDO::PARAM_STR);
-          $statement->bindValue(':random_id', $random_id, PDO::PARAM_STR);
+          // $statement->bindValue(':login_user', $login_user, PDO::PARAM_STR);
+          // $statement->bindValue(':random_id', $random_id, PDO::PARAM_STR);
     
-          $statement->execute();
+          // $statement->execute();
 
-          setcookie('Your_name', $_POST['user_name'], time()+3600);
-          setcookie('Your_id', $random_id, time()+3600);
+          $_SESSION['data'] = [
+            'name' => $login_user,
+            'random_id' => $random_id
+          ];
+
+          header('Location: /', 307);
 
           exit;
         }
       }
       
       // 名前が登録されている場合
-      else if(isset($_COOKIE['Your_name'])){
+      else if(isset($_COOKIE[session_name()]) && $_POST['chat_message']){
+        echo 'yes';
 
         // 退出ボタンを押した場合
         if($_POST['chat_exit']){
           header('Location: /', 307);
-          setcookie('Your_name', '', time() - 3600);
-          setcookie('Your_id', '', time() - 3600);
+          setcookie(session_name(), '', time() - 36000);
 
           $statement = $pdo->prepare('DELETE FROM `login_user` WHERE `random_id` = :random_id');
 
@@ -96,7 +100,7 @@
 
 
     // ページ離脱時にログアウト処理をする
-    if( isset($_COOKIE['Your_name']) ){
+    if( isset($_SESSION['data']) ){
       if($_SERVER['HTTP_HOST'] !== 'localhost.chat.test'){
 
         $statement = $pdo->prepare('DELETE FROM `login_user` WHERE `random_id` = :random_id');
@@ -104,8 +108,7 @@
         $statement->bindValue(':random_id', $_COOKIE['Your_id'], PDO::PARAM_STR);
         $statement->execute();
 
-        setcookie('Your_name', '', time() - 3600);
-        setcookie('Your_id', '', time() - 3600);
+        setcookie(session_name(), '', time() - 36000);
       }
     }
 

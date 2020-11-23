@@ -3,7 +3,7 @@
 
   <form action="/" method="post" class="chat_post">
 
-    <?php if(!isset($_COOKIE['Your_name'])){
+    <?php if(!isset($_COOKIE[session_name()])){
       echo '
       <div class="header_box">
         <label for="user_name">ユーザー名：</label>
@@ -52,9 +52,10 @@
       <span><?=view($log_value['login_user']);?> さん ★ </span>
     <?php endwhile; ?>
 
-    <?php 
-      if(isset($_COOKIE['Your_name'])){
-        echo '<p>' . htmlspecialchars($_COOKIE['Your_name']) . '　さんとして入室中</p>' .
+    <?php
+      if(isset($_COOKIE[session_name()])){
+        session_start();
+        echo '<p>' . htmlspecialchars($_SESSION['data']['name']) . '　さんとして入室中</p>' .
       
         '<form action="/" method="post">
           <input type="submit" name="chat_exit" id="chat_exit" value="退室する">
