@@ -71,10 +71,14 @@
           $statement->bindValue(':random_id', $delete_id, PDO::PARAM_STR);
           $statement->execute();
 
+          $_SESSION = [];
+
           setcookie(session_name(), '', time() - 36000);
           session_destroy();
 
           header('Location: /', 307);
+
+          exit;
         }// ここまで - 退出ボタンを押した場合
         // 発言内容がなにも入っていない場合
         else if(is_null($_POST['chat_message']) || $_POST['chat_message'] === ''){
@@ -118,8 +122,12 @@
         $statement->bindValue(':random_id', $delete_id, PDO::PARAM_STR);
         $statement->execute();
 
+        $_SESSION = [];
+
         setcookie(session_name(), '', time() - 36000);
         session_destroy();
+
+        exit;
       }
     }
 
