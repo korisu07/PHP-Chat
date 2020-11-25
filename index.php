@@ -9,12 +9,16 @@
 </head>
 <body>
 
-<?php require_once dirname(__FILE__) . '/inc/php/function.php' ?>
+  <?php 
+    require_once dirname(__FILE__) . '/inc/php/function.php';
+
+    include dirname(__FILE__) . '/inc/php/routing.php';
+  ?>
 
   <header>
     <div class="container">
 
-      <?php include dirname(__FILE__) . '/inc/php/header.php' ?>
+      <?php include dirname(__FILE__) . '/inc/php/header.php'; ?>
       
     </div>
   </header>
@@ -25,9 +29,9 @@
       <div class="chat_logs_view">
         <?php while ($log_value = $access_process->fetch(PDO::FETCH_ASSOC)): ?>
         <ul>
-          <li><?= log_view($log_value['user_name']); ?></li>
-          <li><?= log_view($log_value['message']); ?></li>
-          <li><?= log_view($log_value['date']); ?></li>
+          <li><?= text_escape($log_value['user_name']) . ' さんの発言：'; ?></li>
+          <li><?= text_escape($log_value['message']); ?></li>
+          <li><?= text_escape($log_value['date']); ?></li>
         </ul>
         <?php endwhile; ?>
       </div>
