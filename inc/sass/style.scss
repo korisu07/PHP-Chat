@@ -100,9 +100,6 @@ header::after{
   }
   ul li{
     display: inline-block;
-    &:nth-child(1)::after{
-      content: 'さんの発言：';
-    }
     &:nth-child(3){
       display: block;
       color: rgba($base_font_color, 0.6);
