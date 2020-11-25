@@ -3,7 +3,10 @@
 
   <form action="/" method="post" class="chat_post">
 
-    <?php if(!isset($_COOKIE[session_name()])){
+    <?php 
+    
+    // 名前が登録されていない場合
+    if(!isset($_COOKIE[session_name()])){
       echo '
       <div class="header_box">
         <label for="user_name">ユーザー名：</label>
@@ -13,6 +16,7 @@
       <input type="submit" value="入室する">
       ';
     }
+    // 名前が登録されている場合
     else{
       echo 
       '<div class="header_box">
@@ -30,9 +34,7 @@
   <div class="chat_user">
 
     <?php 
-        function user_list($log_value){
-          return htmlspecialchars(strval($log_value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        }
+
       try{
         // ログイン中のユーザーを表示
         $user_list = $pdo->prepare('SELECT login_user FROM login_user');
@@ -41,15 +43,11 @@
         echo 'ユーザー 一覧の表示に失敗しました。';
       }
 
-      // ログをページ上に表示するための関数
-      function view($log_value){
-        return htmlspecialchars(strval($log_value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-      }
     ?>
 
     <span>入室中：</span>
     <?php while ($log_value = $user_list->fetch(PDO::FETCH_ASSOC)): ?>
-      <span><?=view($log_value['login_user']);?> さん ★ </span>
+      <span><?= text_escape($log_value['login_user']);?> さん ★ </span>
     <?php endwhile; ?>
 
     <?php
