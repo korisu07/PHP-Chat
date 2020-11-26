@@ -74,6 +74,17 @@
         if( isset($_POST['chat_exit']) ){
           session_start();
 
+          $logout_time_tmp = $_SESSION['data']['time_stamp'];
+          $logout_time_tmp = strtotime('+5 second', $logout_time_tmp);
+        
+          $logout_req_time = $_SERVER['REQUEST_TIME'];
+
+          // 連投対策
+          if($logout_req_time < $logout_time_tmp){
+            echo '少し待ってから、退室してください。';
+            return false;
+          }
+
           $delete_id = null;
 
           $statement = $pdo->prepare('DELETE FROM `login_user` WHERE `random_id` = :random_id');
