@@ -29,6 +29,16 @@
         else {
           session_start();
 
+          $login_time_tmp = $_SESSION['data']['time_stamp'];
+          $login_time_tmp = strtotime('+30 second', $login_time_tmp);
+        
+          $now_time = $_SERVER['REQUEST_TIME'];
+
+          // 連投対策
+          if($now_time < $login_time_tmp){
+            echo '連投はできません。少し待ってからお試しください。';
+            return false;
+          }else{
           $login_user = null;
           $random_id = null;
     
@@ -42,14 +52,17 @@
     
           $statement->execute();
 
+          $time_stamp = $_SERVER['REQUEST_TIME'];
+
           $_SESSION['data'] = [
             'name' => $login_user,
-            'random_id' => $random_id
+            'random_id' => $random_id,
+            'time_stamp' => $time_stamp
           ];
-
           header('Location: /', 307);
 
           exit;
+          }
         }
       } // ここまで 名前が登録されていない場合
       
@@ -86,23 +99,45 @@
         }// 発言された場合
         else{
           session_start();
-          header('Location: /', 307);
+
+          $time_tmp = $_SESSION['data']['time_stamp'];
+          $time_tmp = strtotime('+30 second', $time_tmp);
+        
+          $now_timestamp = $_SERVER['REQUEST_TIME'];
+
+          // 連投対策
+          if($now_timestamp < $time_tmp){
+            echo '連投はできません。少し待ってからお試しください。';
+            return false;
+          }else{
+            header('Location: /', 307);
   
-          $user_name = null;
-          $chat_message = null;
-    
-          $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:user_name, :chat_message)');
-    
-          $user_name = (string)$_SESSION['data']['name'];
-          $chat_message = (string)$_POST['chat_message'];
-    
-          $statement->bindValue(':user_name', $user_name, PDO::PARAM_STR);
-          $statement->bindValue(':chat_message', $chat_message, PDO::PARAM_STR);
-    
-          $statement->execute();
-    
-          unset($statement);
-          exit;
+            $user_name = null;
+            $chat_message = null;
+      
+            $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:user_name, :chat_message)');
+      
+            $user_name = (string)$_SESSION['data']['name'];
+            $chat_message = (string)$_POST['chat_message'];
+      
+            $statement->bindValue(':user_name', $user_name, PDO::PARAM_STR);
+            $statement->bindValue(':chat_message', $chat_message, PDO::PARAM_STR);
+      
+            $statement->execute();
+      
+            unset($statement);
+
+            $time_stamp = $_SERVER['REQUEST_TIME'];
+
+            $_SESSION['data'] = [
+              'name' => $_SESSION['data']['name'],
+              'random_id' => $_SESSION['data']['random_id'],
+              'time_stamp' => $time_stamp
+            ];
+
+            exit;
+          }// ここまで - 連投対策
+
         }
       } // ここまで - 名前が登録されている場合
     }//ここまで - POSTメソッドが送信された時の処理
