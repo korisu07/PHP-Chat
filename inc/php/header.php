@@ -52,7 +52,9 @@
 
     <?php
       if(isset($_COOKIE[session_name()])){
-        session_start();
+        if(!isset($_SESSION)){
+          session_start();
+        }
         echo '<p>' . htmlspecialchars($_SESSION['data']['name']) . '　さんとして入室中</p>' .
       
         '<form action="/" method="post">
