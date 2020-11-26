@@ -30,7 +30,7 @@
           session_start();
 
           $login_time_tmp = $_SESSION['data']['time_stamp'];
-          $login_time_tmp = strtotime('+30 second', $login_time_tmp);
+          $login_time_tmp = strtotime('+20 second', $login_time_tmp);
         
           $now_time = $_SERVER['REQUEST_TIME'];
 
@@ -59,7 +59,7 @@
             'random_id' => $random_id,
             'time_stamp' => $time_stamp
           ];
-          header('Location: /', 307);
+          header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
 
           exit;
           }
@@ -88,7 +88,7 @@
           setcookie(session_name(), '', time() - 36000);
           session_destroy();
 
-          header('Location: /', 307);
+          header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
 
           exit;
         }// ここまで - 退出ボタンを押した場合
@@ -101,7 +101,7 @@
           session_start();
 
           $time_tmp = $_SESSION['data']['time_stamp'];
-          $time_tmp = strtotime('+30 second', $time_tmp);
+          $time_tmp = strtotime('+20 second', $time_tmp);
         
           $now_timestamp = $_SERVER['REQUEST_TIME'];
 
@@ -110,7 +110,7 @@
             echo '連投はできません。少し待ってからお試しください。';
             return false;
           }else{
-            header('Location: /', 307);
+            header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
   
             $user_name = null;
             $chat_message = null;
