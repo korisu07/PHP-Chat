@@ -9,7 +9,7 @@
       $access_process->execute();
 
     } catch(PDOException $e){
-      echo 'チャットログの表示に失敗しました。';
+      echo '<p>チャットログの表示に失敗しました。</p>';
     }
 
     // POSTメソッドが送信された時の処理
@@ -21,7 +21,7 @@
 
         // 未入力の場合
         if(is_null($_POST['user_name']) || $_POST['user_name'] === ''){
-          echo 'ユーザー名を入力してください';
+          echo '<p>ユーザー名を入力してください</p>';
           return false;
         }
         
@@ -36,7 +36,7 @@
 
           // 連投対策
           if($now_time < $login_time_tmp){
-            echo '連投はできません。少し待ってからお試しください。';
+            echo '<p>連投はできません。少し待ってからお試しください。</p>';
             return false;
           }else{
           $login_user = null;
@@ -59,7 +59,6 @@
             'random_id' => $random_id,
             'time_stamp' => $time_stamp
           ];
-          header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
 
           exit;
           }
@@ -81,7 +80,7 @@
 
           // 連投対策
           if($logout_req_time < $logout_time_tmp){
-            echo '少し待ってから、退室してください。';
+            echo '<p>少し待ってから、退室してください。</p>';
             return false;
           }
 
@@ -105,7 +104,7 @@
         }// ここまで - 退出ボタンを押した場合
         // 発言内容がなにも入っていない場合
         else if(is_null($_POST['chat_message']) || $_POST['chat_message'] === ''){
-          echo '内容が入力されていません';
+          echo '<p>内容が入力されていません</p>';
           return false;
         }// 発言された場合
         else{
@@ -118,7 +117,7 @@
 
           // 連投対策
           if($now_timestamp < $time_tmp){
-            echo '連投はできません。少し待ってからお試しください。';
+            echo '<p>連投はできません。少し待ってからお試しください。</p>';
             return false;
           }else{
             header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
