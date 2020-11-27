@@ -15,6 +15,7 @@
     // POSTメソッドが送信された時の処理
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      session_start();
 
       // 名前が登録されていない場合
       if( !isset($_COOKIE[session_name()]) && isset($_POST['user_name'])){
@@ -27,18 +28,7 @@
         
         //名前が入力された場合
         else {
-          session_start();
 
-          $login_time_tmp = $_SESSION['data']['time_stamp'];
-          $login_time_tmp = strtotime('+20 second', $login_time_tmp);
-        
-          $now_time = $_SERVER['REQUEST_TIME'];
-
-          // 連投対策
-          if($now_time < $login_time_tmp){
-            echo '<p>連投はできません。少し待ってからお試しください。</p>';
-            return false;
-          }else{
           $login_user = null;
           $random_id = null;
     
@@ -60,8 +50,8 @@
             'time_stamp' => $time_stamp
           ];
 
+          header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
           exit;
-          }
         }
       } // ここまで 名前が登録されていない場合
       
@@ -71,7 +61,6 @@
 
         // 退出ボタンを押した場合
         if( isset($_POST['chat_exit']) ){
-          session_start();
 
           $logout_time_tmp = $_SESSION['data']['time_stamp'];
           $logout_time_tmp = strtotime('+5 second', $logout_time_tmp);
@@ -99,7 +88,6 @@
           session_destroy();
 
           header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
-
           exit;
         }// ここまで - 退出ボタンを押した場合
         // 発言内容がなにも入っていない場合
@@ -108,7 +96,6 @@
           return false;
         }// 発言された場合
         else{
-          session_start();
 
           $time_tmp = $_SESSION['data']['time_stamp'];
           $time_tmp = strtotime('+20 second', $time_tmp);
@@ -145,6 +132,7 @@
               'time_stamp' => $time_stamp
             ];
 
+            header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
             exit;
           }// ここまで - 連投対策
 
