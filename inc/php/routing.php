@@ -3,6 +3,8 @@
 
     include dirname(__FILE__) . '/connect/connect.php';
 
+    include dirname(__FILE__) . '/connect/ng_word.php';
+
     // チャットログを表示
     try{
       $access_process = $pdo->prepare('SELECT * FROM chat_logs ORDER BY id DESC LIMIT 20');
@@ -28,6 +30,26 @@
         
         //名前が入力された場合
         else {
+
+          // NGワードチェック
+          $name_str = $_POST['user_name'];
+
+          // 大文字を小文字に変換
+          $name_str = mb_strtolower($name_str, 'UTF-8');
+          // 数字を半角に、半角カタカナは全角に変換
+          $name_str = mb_convert_kana($name_str, 'KVas', 'UTF-8');
+          // スペース、句読点などを削除
+          $target_sentence = preg_replace('/\s|、|。/', '', $name_str);
+
+          foreach ($ng_words as $ngWordsVal) {
+            // 対象文字列にキーワードが含まれるか
+            if (mb_strpos($target_sentence, $ngWordsVal) !== FALSE) {
+              // 含まれている場合は処理を停止...
+              echo '<p>禁止ワードが含まれています。</p>';
+              return false;
+              break;
+            }
+          }
 
           $login_user = null;
           $random_id = null;
@@ -97,6 +119,28 @@
         }// 発言された場合
         else{
 
+          // NGワードチェック
+          $message_str = $_POST['chat_message'];
+
+          // 大文字を小文字に変換
+          $message_str = mb_strtolower($message_str, 'UTF-8');
+          // 数字を半角に、半角カタカナは全角に変換
+          $message_str = mb_convert_kana($message_str, 'KVas', 'UTF-8');
+
+          // スペース、句読点などを削除
+          $target_sentence = preg_replace('/\s|、|。/', '', $message_str);
+
+          foreach ($ng_words as $ngWordsVal) {
+            // 対象文字列にキーワードが含まれるか
+            if (mb_strpos($target_sentence, $ngWordsVal) !== FALSE) {
+              // 含まれている場合は処理を停止...
+              echo '<p>禁止ワードが含まれています</p>';
+              return false;
+              break;
+            }
+          }
+
+          // POSEメソッドが連投されていないかのチェック
           $time_tmp = $_SESSION['data']['time_stamp'];
           $time_tmp = strtotime('+20 second', $time_tmp);
         
