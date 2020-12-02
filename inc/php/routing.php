@@ -54,22 +54,21 @@
           $login_user = null;
           $random_id = null;
     
-          $statement = $pdo->prepare('INSERT INTO login_user(`login_user`, `random_id`) VALUES(:login_user, :random_id)');
+          // $statement = $pdo->prepare('INSERT INTO login_user(`login_user`, `random_id`) VALUES(:login_user, :random_id)');
     
           $login_user = (string)$_POST['user_name'];
           $random_id = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 10);
     
-          $statement->bindValue(':login_user', $login_user, PDO::PARAM_STR);
-          $statement->bindValue(':random_id', $random_id, PDO::PARAM_STR);
+          // $statement->bindValue(':login_user', $login_user, PDO::PARAM_STR);
+          // $statement->bindValue(':random_id', $random_id, PDO::PARAM_STR);
     
-          $statement->execute();
+          // $statement->execute();
 
-          $time_stamp = $_SERVER['REQUEST_TIME'];
 
           $_SESSION['data'] = [
             'name' => $login_user,
             'random_id' => $random_id,
-            'time_stamp' => $time_stamp
+            'time_stamp' => ''
           ];
 
           header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
@@ -140,9 +139,9 @@
             }
           }
 
-          // POSEメソッドが連投されていないかのチェック
+          // POSTメソッドが連投されていないかのチェック
           $time_tmp = $_SESSION['data']['time_stamp'];
-          $time_tmp = strtotime('+20 second', $time_tmp);
+          $time_tmp = strtotime('+10 second', $time_tmp);
         
           $now_timestamp = $_SERVER['REQUEST_TIME'];
 
