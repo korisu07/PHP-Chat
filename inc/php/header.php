@@ -6,7 +6,7 @@
     <?php 
     
     // 名前が登録されていない場合
-    if(!isset($_COOKIE[session_name()])){
+    if( isset($_SESSION['data']['name']) != true){
       echo '
       <div class="header_box">
         <label for="user_name">ユーザー名：</label>
@@ -55,10 +55,8 @@
     <?php  // endwhile; ?>
 
     <?php
-      if(isset($_COOKIE[session_name()])){
-        if(!isset($_SESSION)){
-          session_start();
-        }
+      if(isset($_SESSION['data']['name'])){
+
         echo '<p>' . htmlspecialchars($_SESSION['data']['name']) . '　さんとして入室中</p>' .
       
         '<form action="/" method="post">
