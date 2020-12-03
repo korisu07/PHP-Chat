@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -12,6 +14,7 @@
   <?php 
     require_once dirname(__FILE__) . '/inc/php/function.php';
 
+    include dirname(__FILE__) . '/inc/php/connect/disconnect_routing.php';
     include dirname(__FILE__) . '/inc/php/routing.php';
   ?>
 
