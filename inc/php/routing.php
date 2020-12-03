@@ -2,8 +2,9 @@
     header("Content-type: text/html; charset=utf-8");
 
     include dirname(__FILE__) . '/connect/connect.php';
-
+    
     include dirname(__FILE__) . '/connect/ng_word.php';
+
 
     // チャットログを表示
     try{
@@ -14,13 +15,13 @@
       echo '<p>チャットログの表示に失敗しました。</p>';
     }
 
+
     // POSTメソッドが送信された時の処理
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      session_start();
 
       // 名前が登録されていない場合
-      if( !isset($_COOKIE[session_name()]) && isset($_POST['user_name'])){
+      if( isset($_SESSION['data']['name']) != true && isset($_POST['user_name'])){
 
         // 未入力の場合
         if(is_null($_POST['user_name']) || $_POST['user_name'] === ''){
@@ -78,7 +79,7 @@
       
 
       // 名前が登録されている場合
-      if(isset($_COOKIE[session_name()])){
+      if(isset($_SESSION['data']['name'])){
 
         // 退出ボタンを押した場合
         if( isset($_POST['chat_exit']) ){
