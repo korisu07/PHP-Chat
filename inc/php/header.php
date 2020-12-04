@@ -38,7 +38,6 @@
     }
     
     ?>
-  </form>
 
   <div class="chat_user">
 
