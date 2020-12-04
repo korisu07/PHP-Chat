@@ -1,8 +1,8 @@
 <?php
   header('Location: /', 307);
 
-  include dirname(__FILE__) . '/../connect/connect.php';
-  include dirname(__FILE__) . '/../connect/ng_word.php';
+  include dirname(__FILE__) . '/../inc/php/connect/connect.php';
+  include dirname(__FILE__) . '/../inc/php/connect/ng_word.php';
 
   // 未入力の場合
   if(is_null($_POST['user_name']) || $_POST['user_name'] === ''){
@@ -31,6 +31,7 @@
         echo '<p>禁止ワードが含まれています。</p>';
         return false;
         break;
+        exit;
       }
     }
 
@@ -52,8 +53,9 @@
       'name' => $login_user,
       'random_id' => $random_id,
       'time_stamp' => '',
-      'error_message' => ''
-
+      'error_message' => '',
+      'reload_time_stamp' => $reload_time_stamp,
+      'reload_count' => 0
     ];
 
 

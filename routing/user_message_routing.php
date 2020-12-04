@@ -1,14 +1,21 @@
 <?php
 
-  include dirname(__FILE__) . '/../connect/connect.php';
-  include dirname(__FILE__) . '/../connect/ng_word.php';
+  include dirname(__FILE__) . '/../inc/php/connect/connect.php';
+  include dirname(__FILE__) . '/../inc/php/connect/ng_word.php';
 
   header('Location: /', 307);
   
+  if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
     // 発言内容がなにも入っていない場合
     if(is_null($_POST['chat_message']) || $_POST['chat_message'] === ''){
       $_SESSION['data'] = [
-        'error_message' => '内容が入力されていません。'
+        'name' => $login_user,
+        'random_id' => $random_id,
+        'time_stamp' => '',
+        'error_message' => '内容が入力されていません。',
+        'reload_time_stamp' => $reload_time_stamp,
+        'reload_count' => 0
       ];
       return false;
       exit;
@@ -78,4 +85,5 @@
       exit;
     }// ここまで - 連投対策
   }
+}
 ?>

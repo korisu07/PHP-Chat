@@ -1,7 +1,7 @@
 <?php
   header('Location: /', 307);
 
-  include dirname(__FILE__) . '/../connect/connect.php';
+  include dirname(__FILE__) . '/../inc/php/connect/connect.php';
 
 // 退出ボタンを押した場合
   if( isset($_POST['chat_exit']) ){
