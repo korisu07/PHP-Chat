@@ -1,5 +1,7 @@
-<?php session_start(); ?>
-
+<?php 
+header("Content-type: text/html; charset=utf-8");
+session_start();
+ ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -12,6 +14,7 @@
 <body>
 
   <?php 
+
     require_once dirname(__FILE__) . '/inc/php/function.php';
 
     include dirname(__FILE__) . '/inc/php/connect/disconnect_routing.php';
