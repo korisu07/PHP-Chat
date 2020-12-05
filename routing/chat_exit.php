@@ -1,5 +1,8 @@
 <?php
   header('Location: /', 307);
+  session_start();
+
+  require_once dirname(__FILE__) . '/../inc/php/function.php';
 
   include dirname(__FILE__) . '/../inc/php/connect/connect.php';
 
@@ -13,8 +16,14 @@
 
     // 連投対策
     if($logout_req_time < $logout_time_tmp){
-      echo '<p>少し待ってから、退室してください。</p>';
-      return false;
+      $_SESSION['data'] = [
+        'name' => '',
+        'random_id' => '',
+        'time_stamp' => '',
+        'error_message' => '少し待ってから、退室してください。',
+        'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
+        'reload_count' => $_SESSION['data']['reload_count']
+      ];
       exit;
     }
 
@@ -27,10 +36,14 @@
     // $statement->bindValue(':random_id', $delete_id, PDO::PARAM_STR);
     // $statement->execute();
 
-    $_SESSION = [];
-
-    setcookie(session_name(), '', time() - 36000);
-    session_destroy();
+    $_SESSION['data'] = [
+      'name' => '',
+      'random_id' => '',
+      'time_stamp' => '',
+      'error_message' => '',
+      'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
+      'reload_count' => $_SESSION['data']['reload_count']
+    ];
 
     exit;
     }// ここまで - 退出ボタンを押した場合
