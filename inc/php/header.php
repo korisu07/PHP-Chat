@@ -3,15 +3,6 @@
 
   <?php 
 
-    // if( isset($_SESSION['data']) ){
-    //   echo var_dump($_SESSION['data']);
-    // }
-  
-    if(isset($_COOKIE[session_name()]['error_message']) && $_SESSION['data']['error_message'] != ''){
-      echo '<p>' . $_SESSION['data']['error_message'] . '</p>';
-    }
-
-
     // 名前が登録されている場合
     if( isset($_SESSION['data']['name']) && $_SESSION['data']['name'] != '' ){
       echo '
