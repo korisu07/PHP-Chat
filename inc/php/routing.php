@@ -1,11 +1,6 @@
 <?php 
-    header("Content-type: text/html; charset=utf-8");
-
     include dirname(__FILE__) . '/connect/connect.php';
     
-    include dirname(__FILE__) . '/connect/ng_word.php';
-
-
     // チャットログを表示
     try{
       $access_process = $pdo->prepare('SELECT * FROM chat_logs ORDER BY id DESC LIMIT 20');
