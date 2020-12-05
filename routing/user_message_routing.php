@@ -1,11 +1,12 @@
 <?php
+  require_once dirname(__FILE__) . '/../inc/php/function.php';
 
   include dirname(__FILE__) . '/../inc/php/connect/connect.php';
   include dirname(__FILE__) . '/../inc/php/connect/ng_word.php';
 
   header('Location: /', 307);
+  session_start();
   
-  if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     // 発言内容がなにも入っていない場合
     if(is_null($_POST['chat_message']) || $_POST['chat_message'] === ''){
@@ -52,11 +53,16 @@
 
     // 連投対策
     if($now_timestamp < $time_tmp){
-      echo '<p>連投はできません。少し待ってからお試しください。</p>';
-      return false;
+      $_SESSION['data'] = [
+        'name' => '',
+        'random_id' => '',
+        'time_stamp' => '',
+        'error_message' => '連投はできません。少し待ってからお試しください。',
+        'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
+        'reload_count' => $_SESSION['data']['reload_count']
+      ];
       exit;
     }else{
-      header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
 
       $user_name = null;
       $chat_message = null;
@@ -76,14 +82,14 @@
       $time_stamp = $_SERVER['REQUEST_TIME'];
 
       $_SESSION['data'] = [
-        'name' => $_SESSION['data']['name'],
-        'random_id' => $_SESSION['data']['random_id'],
+        'name' => $user_name,
+        'random_id' => $chat_message,
         'time_stamp' => $time_stamp,
+        'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
+        'reload_count' => $_SESSION['data']['reload_count']
       ];
 
-      header('Location: '. $_SERVER['PHP_SELF'] . '/../', 307);
       exit;
     }// ここまで - 連投対策
   }
-}
 ?>
