@@ -9,14 +9,8 @@
 
   // 未入力の場合
   if(is_null($_POST['user_name']) || $_POST['user_name'] === ''){
-    $_SESSION['data'] = [
-      'name' => '',
-      'random_id' => '',
-      'time_stamp' => '',
-      'error_message' => 'ユーザー名を入力してください',
-      'reload_time_stamp' => $reload_time_stamp,
-      'reload_count' => 0
-    ];
+    $_SESSION['data']['error_message'] = 'ユーザー名を入力してください';
+    return false;
     exit;
   }else{
   
@@ -35,10 +29,9 @@
     foreach ($ng_words as $ngWordsVal) {
       // 対象文字列にキーワードが含まれるか
       if (mb_strpos($target_sentence, $ngWordsVal) !== FALSE) {
-        // 含まれている場合は処理を停止...
-        echo '<p>禁止ワードが含まれています。</p>';
+        // 含まれている場合は処理を停止
+        $_SESSION['data']['error_message'] = '禁止ワードが含まれています。';
         return false;
-        break;
         exit;
       }
     }
@@ -57,15 +50,11 @@
     // $statement->execute();
 
 
-    $_SESSION['data'] = [
-      'name' => $login_user,
-      'random_id' => $random_id,
-      'time_stamp' => '',
-      'error_message' => '',
-      'reload_time_stamp' => $reload_time_stamp,
-      'reload_count' => 0
-    ];
-
+    $_SESSION['data']['name'] = $login_user;
+    $_SESSION['data']['random_id'] = $random_id;
+    $_SESSION['data']['time_stamp'] = $_SERVER['REQUEST_TIME'];
+    $_SESSION['data']['error_message'] = '';
+    
     exit;
   }
 

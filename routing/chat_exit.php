@@ -16,36 +16,32 @@
 
     // 連投対策
     if($logout_req_time < $logout_time_tmp){
+      $_SESSION['data']['error_message'] = '少し待ってから、退室してください。';
+      return false;
+      exit;
+    }else{
+
+      // $delete_id = null;
+
+      // $statement = $pdo->prepare('DELETE FROM `login_user` WHERE `random_id` = :random_id');
+
+      // $delete_id = $_SESSION['data']['random_id'];
+
+      // $statement->bindValue(':random_id', $delete_id, PDO::PARAM_STR);
+      // $statement->execute();
+
       $_SESSION['data'] = [
         'name' => '',
         'random_id' => '',
         'time_stamp' => '',
-        'error_message' => '少し待ってから、退室してください。',
+        'error_message' => '',
         'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
         'reload_count' => $_SESSION['data']['reload_count']
       ];
+
       exit;
     }
 
-    $delete_id = null;
-
-    // $statement = $pdo->prepare('DELETE FROM `login_user` WHERE `random_id` = :random_id');
-
-    // $delete_id = $_SESSION['data']['random_id'];
-
-    // $statement->bindValue(':random_id', $delete_id, PDO::PARAM_STR);
-    // $statement->execute();
-
-    $_SESSION['data'] = [
-      'name' => '',
-      'random_id' => '',
-      'time_stamp' => '',
-      'error_message' => '',
-      'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
-      'reload_count' => $_SESSION['data']['reload_count']
-    ];
-
-    exit;
     }// ここまで - 退出ボタンを押した場合
 
   ?>

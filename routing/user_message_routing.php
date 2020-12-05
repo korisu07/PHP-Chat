@@ -10,14 +10,7 @@
 
     // 発言内容がなにも入っていない場合
     if(is_null($_POST['chat_message']) || $_POST['chat_message'] === ''){
-      $_SESSION['data'] = [
-        'name' => $login_user,
-        'random_id' => $random_id,
-        'time_stamp' => '',
-        'error_message' => '内容が入力されていません。',
-        'reload_time_stamp' => $reload_time_stamp,
-        'reload_count' => 0
-      ];
+      $_SESSION['data']['error_message'] = '内容が入力されていません。';
       return false;
       exit;
     }// 発言が入力されていた場合
@@ -37,10 +30,9 @@
     foreach ($ng_words as $ngWordsVal) {
       // 対象文字列にキーワードが含まれるか
       if (mb_strpos($target_sentence, $ngWordsVal) !== FALSE) {
-        // 含まれている場合は処理を停止...
-        echo '<p>禁止ワードが含まれています</p>';
+        // 含まれている場合は処理を停止
+        $_SESSION['data']['error_message'] = '禁止ワードが含まれています。';
         return false;
-        break;
         exit;
       }
     }
@@ -53,14 +45,8 @@
 
     // 連投対策
     if($now_timestamp < $time_tmp){
-      $_SESSION['data'] = [
-        'name' => '',
-        'random_id' => '',
-        'time_stamp' => '',
-        'error_message' => '連投はできません。少し待ってからお試しください。',
-        'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
-        'reload_count' => $_SESSION['data']['reload_count']
-      ];
+      $_SESSION['data']['error_message'] = '少し待ってから投稿してください。';
+      return false;
       exit;
     }else{
 
@@ -81,13 +67,8 @@
 
       $time_stamp = $_SERVER['REQUEST_TIME'];
 
-      $_SESSION['data'] = [
-        'name' => $user_name,
-        'random_id' => $chat_message,
-        'time_stamp' => $time_stamp,
-        'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
-        'reload_count' => $_SESSION['data']['reload_count']
-      ];
+      $_SESSION['data']['error_message'] = '';
+      $_SESSION['data']['time_stamp'] = $time_stamp;
 
       exit;
     }// ここまで - 連投対策
