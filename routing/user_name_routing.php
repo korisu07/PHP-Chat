@@ -1,18 +1,26 @@
 <?php
   header('Location: /', 307);
+  session_start();
+  
+  require_once dirname(__FILE__) . '/../inc/php/function.php';
 
   include dirname(__FILE__) . '/../inc/php/connect/connect.php';
   include dirname(__FILE__) . '/../inc/php/connect/ng_word.php';
 
   // 未入力の場合
   if(is_null($_POST['user_name']) || $_POST['user_name'] === ''){
-    echo '<p>ユーザー名を入力してください</p>';
-    return false;
+    $_SESSION['data'] = [
+      'name' => '',
+      'random_id' => '',
+      'time_stamp' => '',
+      'error_message' => 'ユーザー名を入力してください',
+      'reload_time_stamp' => $reload_time_stamp,
+      'reload_count' => 0
+    ];
     exit;
-  }
+  }else{
   
   //名前が入力された場合
-  else {
 
     // NGワードチェック
     $name_str = $_POST['user_name'];
@@ -58,7 +66,7 @@
       'reload_count' => 0
     ];
 
-
     exit;
-}
+  }
+
 ?>
