@@ -3,28 +3,17 @@
 
   <?php 
 
-  echo var_dump($_SESSION['data']);
+    // if( isset($_SESSION['data']) ){
+    //   echo var_dump($_SESSION['data']);
+    // }
   
     if(isset($_COOKIE[session_name()]['error_message']) && $_SESSION['data']['error_message'] != ''){
       echo '<p>' . $_SESSION['data']['error_message'] . '</p>';
     }
 
 
-    // 名前が登録されていない場合
-    if( $_SESSION['data']['name'] === ''){
-      echo '
-      <form action="/routing/user_name_routing.php" method="post" class="chat_post">
-      <div class="header_box">
-        <label for="user_name">ユーザー名：</label>
-        <input type="text" name="user_name" id="chat" maxlength="20">
-      </div>
-
-      <input type="submit" value="入室する">
-      </from>
-      ';
-    }
     // 名前が登録されている場合
-    else{
+    if( isset($_SESSION['data']['name']) && $_SESSION['data']['name'] != '' ){
       echo '
       <form action="/routing/user_message_routing.php" method="post" class="chat_post">
       <div class="header_box">
@@ -33,7 +22,20 @@
       </div>
 
       <input type="submit" value="発言する">
-      </from>
+      </form>
+      ';
+    }
+    // 名前が登録されていない場合
+    else{
+      echo '
+      <form action="/routing/user_name_routing.php" method="post" class="chat_post">
+      <div class="header_box">
+        <label for="user_name">ユーザー名：</label>
+        <input type="text" name="user_name" id="chat" maxlength="20">
+      </div>
+
+      <input type="submit" value="入室する">
+      </form>
       ';
     }
     
@@ -63,7 +65,7 @@
     <?php  // endwhile; ?>
 
     <?php
-      if( $_SESSION['data']['name'] != '' ){
+      if( isset($_SESSION['data']['name']) && $_SESSION['data']['name'] != '' ){
 
         echo '<p>' . htmlspecialchars($_SESSION['data']['name']) . '　さんとして入室中</p>' .
       
