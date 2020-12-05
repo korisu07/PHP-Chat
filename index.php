@@ -22,6 +22,15 @@ session_start();
   ?>
 
   <header>
+    
+  <?php 
+    if(isset($_SESSION['data']['error_message']) && $_SESSION['data']['error_message'] != ''){
+      echo '<div class="error_message"><div class="container">' . 
+      $_SESSION['data']['error_message'] . 
+      '</div></div>';
+    }  
+  ?>
+
     <div class="container">
 
       <?php include dirname(__FILE__) . '/inc/php/header.php'; ?>
