@@ -60,7 +60,7 @@
 
         echo '<p>' , htmlspecialchars($_SESSION['data']['name']) , '　さんとして入室中</p>' ,
       
-        '<form action="/routing/chat_exit.php" method="post">
+        '<form action="./routing/chat_exit.php" method="post">
           <input type="submit" name="chat_exit" id="chat_exit" value="退室する">
         </form>';
       }
