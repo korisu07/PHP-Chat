@@ -25,8 +25,8 @@ session_start();
     
   <?php 
     if(isset($_SESSION['data']['error_message']) && $_SESSION['data']['error_message'] != ''){
-      echo '<div class="error_message"><div class="container">' . 
-      $_SESSION['data']['error_message'] . 
+      echo '<div class="error_message"><div class="container">' , 
+      $_SESSION['data']['error_message'] ,
       '</div></div>';
     }  
   ?>
