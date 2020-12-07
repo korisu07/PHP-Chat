@@ -21,15 +21,20 @@
       exit;
     }else{
 
-      // $delete_id = null;
+      $logout_user = null;
+      $logout_user = $_SESSION['data']['name'];
 
-      // $statement = $pdo->prepare('DELETE FROM `login_user` WHERE `random_id` = :random_id');
+      $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:system_name, :log_message)');
 
-      // $delete_id = $_SESSION['data']['random_id'];
 
-      // $statement->bindValue(':random_id', $delete_id, PDO::PARAM_STR);
-      // $statement->execute();
+      $log_message = null;
+      $log_message = $logout_user . 'さんが退室しました。';
+  
+      $statement->bindValue(':system_name', 'system', PDO::PARAM_STR);
+      $statement->bindValue(':log_message', $log_message, PDO::PARAM_STR);
 
+      $statement->execute();
+      
       $_SESSION['data'] = [
         'name' => '',
         'random_id' => '',
@@ -38,6 +43,7 @@
         'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
         'reload_count' => $_SESSION['data']['reload_count']
       ];
+
 
       exit;
     }
