@@ -39,15 +39,18 @@
     $login_user = null;
     $random_id = null;
 
-    // $statement = $pdo->prepare('INSERT INTO login_user(`login_user`, `random_id`) VALUES(:login_user, :random_id)');
-
     $login_user = (string) $_POST['user_name'];
     $random_id = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 10);
 
-    // $statement->bindValue(':login_user', $login_user, PDO::PARAM_STR);
-    // $statement->bindValue(':random_id', $random_id, PDO::PARAM_STR);
+    $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:system_name, :log_message)');
 
-    // $statement->execute();
+    $log_message = null;
+    $log_message = $login_user . 'さんが入室しました。';
+
+    $statement->bindValue(':system_name', 'system', PDO::PARAM_STR);
+    $statement->bindValue(':log_message', $log_message, PDO::PARAM_STR);
+
+    $statement->execute();
 
 
     $_SESSION['data']['name'] = $login_user;
