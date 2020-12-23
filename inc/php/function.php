@@ -5,5 +5,3 @@
   }
 
   $reload_time_stamp = $_SERVER['REQUEST_TIME'];
-
-?>

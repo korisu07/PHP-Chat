@@ -9,5 +9,3 @@
     } catch(PDOException $e){
       echo '<p>チャットログの表示に失敗しました。</p>';
     }
-
-    ?>
