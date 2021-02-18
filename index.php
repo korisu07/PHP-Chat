@@ -14,11 +14,10 @@ session_start();
 <body>
 
   <?php 
-
     require_once dirname(__FILE__) . '/inc/php/function.php';
 
-    include dirname(__FILE__) . '/inc/php/connect/disconnect_routing.php';
-    include dirname(__FILE__) . '/inc/php/routing.php';
+    require_once dirname(__FILE__) . '/inc/php/connect/disconnect_routing.php';
+    require_once dirname(__FILE__) . '/inc/php/routing.php';
   ?>
 
   <header>
@@ -33,7 +32,8 @@ session_start();
 
     <div class="container">
 
-      <?php include dirname(__FILE__) . '/inc/php/header.php'; ?>
+      <?php require_once dirname(__FILE__) . '/inc/php/header.php'; ?>
+      <?php require_once dirname(__FILE__) . '/inc/php/viewer.php'; ?>
       
     </div>
   </header>
@@ -43,16 +43,19 @@ session_start();
       
       <div class="chat_logs_view">
         <?php while ($log_value = $access_process->fetch(PDO::FETCH_ASSOC)): ?>
-        <ul>
-          <li><?= text_escape($log_value['user_name']) . ' さんの発言：'; ?></li>
-          <li><?= text_escape($log_value['message']); ?></li>
-          <li><?= text_escape($log_value['date']); ?></li>
-        </ul>
+          <ul>
+            <li><?= text_escape($log_value['user_name']) . ' さんの発言：'; ?></li>
+            <li><?= text_escape($log_value['message']); ?></li>
+            <li><?= text_escape($log_value['date']); ?></li>
+          </ul>
         <?php endwhile; ?>
+        <!-- < ?php 
+          $viewer = new Viewer($access_process->fetch(PDO::FETCH_ASSOC));
+          $viewer->logSheet();
+         ?> -->
       </div>
 
     </div>
-
   </article>
 
   <footer>
