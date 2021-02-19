@@ -51,9 +51,9 @@
     ?>
 
     <!-- <span>入室中：</span> -->
-    <?php // while ($log_value = $user_list->fetch(PDO::FETCH_ASSOC)): ?>
-      <!-- <span><?= text_escape($log_value['login_user']);?> さん ★ </span> -->
-    <?php  // endwhile; ?>
+    <!-- < ? php // while ($log_value = $user_list->fetch(PDO::FETCH_ASSOC)): ?> -->
+      <!-- <span>< ? = text_escape($log_value['login_user']);?> さん ★ </span> -->
+    <!-- < ? php  // endwhile; ?> -->
 
     <?php
       if( isset($_SESSION['data']['name']) && $_SESSION['data']['name'] != '' ){
