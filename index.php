@@ -27,7 +27,7 @@ session_start();
       echo '<div class="error_message"><div class="container">' , 
       $_SESSION['data']['error_message'] ,
       '</div></div>';
-    }  
+    }
   ?>
 
     <div class="container">
@@ -42,18 +42,14 @@ session_start();
     <div class="container">
       
       <div class="chat_logs_view">
-        <?php while ($log_value = $access_process->fetch(PDO::FETCH_ASSOC)): ?>
-          <ul>
-            <li><?= text_escape($log_value['user_name']) . ' さんの発言：'; ?></li>
-            <li><?= text_escape($log_value['message']); ?></li>
-            <li><?= text_escape($log_value['date']); ?></li>
-          </ul>
-        <?php endwhile; ?>
-        <!-- < ?php 
-          $viewer = new Viewer($access_process->fetch(PDO::FETCH_ASSOC));
-          $viewer->logSheet();
-         ?> -->
-      </div>
+
+      <?php 
+        while( $sql_log_data = $access_process->fetch(PDO::FETCH_ASSOC) ){
+          $viewer = new Viewer();
+          $viewer->logSheet( $sql_log_data );
+        }
+      ?>
+      </div> <!-- /.chat_logs_view -->
 
     </div>
   </article>
