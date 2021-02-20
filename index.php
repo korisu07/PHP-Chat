@@ -45,8 +45,8 @@ session_start();
 
       <?php 
         while( $sql_log_data = $access_process->fetch(PDO::FETCH_ASSOC) ){
-          $viewer = new Viewer();
-          $viewer->logSheet( $sql_log_data );
+          $viewer = new Viewer( $sql_log_data );
+          $viewer->logSheet();
         }
       ?>
       </div> <!-- /.chat_logs_view -->
