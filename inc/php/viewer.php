@@ -3,11 +3,12 @@
 class Viewer{
 
   //ログの配列
-  protected array $logs = [];
+  protected array $logs;
 
   // construnct
-  public function __construct()
+  public function __construct( array $logs )
   {
+    $this->logs = $logs;
   } //end func __construct.
 
   // HTMLタグをエスケープする
@@ -17,9 +18,8 @@ class Viewer{
   } //end func htmlEscape.
 
   // logを表示する
-  public function logSheet( array $logs ): void
+  public function logSheet(): void
   {
-    $this->logs = $logs;
     echo '<ul>';
     echo '<li>', $this->htmlEscape( $this->logs['user_name'] ), 'さんの発言：</li>';
     echo '<li>', $this->htmlEscape( $this->logs['message'] ), '</li>';
