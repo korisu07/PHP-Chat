@@ -1,5 +1,5 @@
 <?php 
-    include dirname(__FILE__) . '/connect/connect.php';
+    require_once dirname(__FILE__) . '/connect/connect.php';
     
     // チャットログを表示
     try{
