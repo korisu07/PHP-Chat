@@ -49,30 +49,29 @@ class header {
     ';
 
     // チャットで発言するためのフォーム
-    $this->chatForm = '
-      <form action="./routing/user_message_routing.php" method="post" class="chat_post">
+    $this->chatForm = 
+      '<form action="./routing/user_message_routing.php" method="post" class="chat_post">
       <div class="header_box">
         <label for="chat_message">メッセージ：</label>
         <input type="text" name="chat_message" id="chat" maxlength="200">
       </div>
 
       <input type="submit" value="発言する">
-      </form>
-    ';
+      </form>';
 
+    // session内にユーザー名が設定されているときに発動
     if( $this->checkSetUserName ){
       // 入室中であるときに表示されるユーザー名
-      $this->showUserName = '
+      $this->showUserName = 
 
-        <p>' . htmlspecialchars( $this->setUserName ) . '　さんとして入室中</p>' .
+      '<p>' . htmlspecialchars( $this->setUserName ) . '　さんとして入室中</p>' .
           
         '<form action="./routing/chat_exit.php" method="post">
           <input type="submit" name="chat_exit" id="chat_exit" value="退室する">
         </form>
       </div>';
     } // end if userList.
-
-  }
+  } // end __construct.
 
   public function loadTextarea():void
   {
@@ -92,7 +91,6 @@ class header {
       echo $this->loginForm;
 
     } // end if echoForm.
-
   } // end func loadTextarea.
 
 } // end class header.
