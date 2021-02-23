@@ -31,8 +31,15 @@ session_start();
   ?>
 
     <div class="container">
+      <?php require_once dirname(__FILE__) . '/inc/php/connect/connect.php'; ?>
 
-      <?php require_once dirname(__FILE__) . '/inc/php/header.php'; ?>
+      <?php require_once dirname(__FILE__) . '/inc/php/header.php';
+        $userName = (string) $_SESSION['data']['name'];
+        $header = new header( $userName );
+        $header->loadTextarea();
+      ?>
+
+
       <?php require_once dirname(__FILE__) . '/inc/php/viewer.php'; ?>
       
     </div>
