@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-class setSession {
+abstract class setSession{
 
   private string $timeStamp;
 
