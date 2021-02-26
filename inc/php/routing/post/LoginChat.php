@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace accessRouting\postMethod;
+namespace Routing\Post;
 
-require_once dirname(__FILE__) . '/../setSession/setSession.php';
-require_once dirname(__FILE__) . '/interface/postMethod.php';
+require_once dirname(__FILE__) . '/../setSession/Main.php';
+require_once dirname(__FILE__) . '/interface/PostMethod.php';
 
 
-class loginChat extends setSession implements postMethod
+class LoginChat extends session\Main implements PostMethod
 {
   // セッションをセットする
   public function setSession()

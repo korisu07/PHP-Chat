@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 // POSTリクエストを行うクラスの抽象メソッド
-interface postMethod{
+interface PostMethod{
   // セッションをセットする
   public function setSession();
 
