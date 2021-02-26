@@ -2,24 +2,25 @@
 
 namespace Routing\Post;
 
-require_once dirname(__FILE__) . '/../setSession/Main.php';
+require_once dirname(__FILE__) . '/../session/Update.php';
 require_once dirname(__FILE__) . '/interface/PostMethod.php';
 
-
-class SendMessage extends setSession\Main implements PostMethod
+class SendMessage extends \Routing\Session\Update implements PostMethod
 {
   // セッションをセットする
-  public function setSession(){
-    
+  public function setSession(int $time):void
+  {
+    $this->updateTimeStampSession($time);
   }
 
   // SQLに接続する
-  public function connectSQL(){
-
+  public function connectSQL()
+  {
   }
 
   // 表示したいログをSQLに登録する
-  public function sendChatLog(){
-
+  public function sendChatLog()
+  {
+    
  }
 }
