@@ -14,14 +14,8 @@ abstract class Main{
   // 後から更新されるセッション
   protected array $customSession;
 
-  // __construct
-  public function __construct(int $time){ // インスタンス化するときに $_SERVER['REQUEST_TIME']を指定する
-    $this->setFirstSession( $time );
-  } //end __construct.
-
   // 初回アクセス時のセッションを設定
-  // インスタンス化したタイミングで発動
-  private function setFirstSession(int $time):void
+  public function setFirstSession(int $time):void  // 引数には $_SERVER['REQUEST_TIME'] を指定する
   {
     $this->timeStamp = date('Y-m-d G:i:s', $time);
 
@@ -41,9 +35,5 @@ abstract class Main{
   {
     $_SESSION['data']['error_message'] = $message;
   } //end func errorMessage.
-
-  abstract function setLoginSession();
-
-  abstract function updateTimeStampSession();
 
 }
