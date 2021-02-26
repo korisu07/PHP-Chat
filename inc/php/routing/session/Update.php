@@ -5,10 +5,10 @@ namespace Routing\Session;
 require_once dirname(__FILE__) . '/Main.php';
 
 // ログイン時のセッション更新と、タイムスタンプ更新の処理を行うクラス
-abstract class Update extends Routing\Session\Main{
+abstract class Update extends Main{
 
   // 入室するときにセッションにユーザー名をセットする
-  public function setLoginSession(string $name, int $time):void
+  protected function setLoginSession(string $name, int $time):void
   {
     $this->timeStamp = date('Y-m-d G:i:s', $time);
 
@@ -26,7 +26,7 @@ abstract class Update extends Routing\Session\Main{
   } //end func loginSessionRouting.
 
   // タイムスタンプの記録のみを更新する関数
-  public function updateTimeStampSession(int $time):void
+  protected function updateTimeStampSession(int $time):void
   {
     $this->timeStamp = date('Y-m-d G:i:s', $time);
 
