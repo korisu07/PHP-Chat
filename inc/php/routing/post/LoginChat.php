@@ -10,51 +10,63 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
   // ユーザー名
   private string $userName;
 
-  // NGワードチェックの結果
-  // falseであればNGワードが入っている
-  private bool $checkBool;
+  // タイムスタンプ
+  private int $timestamp;
 
-  public function __construct(bool $bool){
+  // NGワードチェックの結果
+  // class CheckWordから判定結果を受け渡す
+  // falseであればNGワードが入っている
+  private $checkBool;
+
+  // __construct
+  public function __construct($bool, int $time){
     $this->checkBool = $bool;
-  }
+    $this->timestamp = $time;
+  } //end __construct.
 
   // セッションをセットする
-  public function setSession(string $name, int $time)
+  public function setSession(string $name):void
   {
-    $this->setLoginSession($name, $time);
-  }
-
-  // SQLに接続する
-  public function connectSQL(): void
-  {
-    // SQLに接続する処理
-    try{
-      // SQLに接続
-      $pdo = new PDO($connect_db, $connect_user, $connect_pass);
-      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
-      // トップページに移動
-      header('Location: /', 307);
-
-    } catch (PDOException $e){
-      echo '接続に失敗しました。しばらく経ってからお試しください。' , '<br>';
-      return;
-    } //end try ~ catch.
-
-  }
+    $this->setLoginSession($name, $this->timestamp);
+  } //end func setSession.
 
   // 表示したいログをSQLに登録する
-  public function sendChatLog(string $str)
+  public function sendChatLog(string $name, $pdo = null):void
   {
-    // チェックがNGの場合
-    if( $this->checkBool === false){
-      $this->setErrorMessage('禁止ワードが含まれています。');
-    } else { // チェックがOKの場合
-      $this->connectSQL();
-      echo 'OK';
-    } //end if.
+    if( $this->checkBool === true ) { // チェックがOKの場合
 
-  }
+      // SQLに接続
+      try{
+        $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:system_name, :log_message)');
 
-}
+        // ログに登録するメッセージを設定
+        $log_message = $name . 'さんが入室しました。';
+  
+        // SQLに内容を埋め込み
+        $statement->bindValue(':system_name', 'system', \PDO::PARAM_STR);
+        $statement->bindValue(':log_message', $log_message, \PDO::PARAM_STR);
+    
+        // 値の受け渡しを実行
+        $statement->execute();
+  
+        // セッションを更新する
+        $this->setSession($name);
+
+      } catch (PDOException $e){
+        // エラーを受け取った場合、エラーメッセージをセッション内に登録
+        $this->setErrorMessage('エラー！チャットに入室できませんでした。しばらく経ってからお試しください。');
+      } //end try~catch.
+
+    } else if( $this->checkBool === null ) { // なにかしらのエラーで、ワードがうまく判定されなかった場合
+
+      // なにかしらのエラーで、かつエラーメッセージが入っていない場合
+      if( isset($_SESSION['data']['error_message']) && $_SESSION['data']['error_message'] === ''){
+        $this->setErrorMessage('エラー！チャットに入室できませんでした。しばらく経ってからお試しください。');
+      } //end if, Error occurred and error messsage is empty.
+
+      return;
+
+    } //end if SQL.
+  } //end func sendChatLog.
+
+}//end class LoginChat.
