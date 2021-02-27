@@ -7,20 +7,19 @@ require_once dirname(__FILE__) . '/interface/PostMethod.php';
 
 class SendMessage extends \Routing\Session\Update implements PostMethod
 {
-  // セッションをセットする
-  public function setSession(int $time):void
-  {
-    $this->updateTimeStampSession($time);
+  public function __construct(int $time){
+    $this->timestamp = $time;
   }
 
-  // SQLに接続する
-  public function connectSQL()
+  // セッションをセットする
+  public function setSession(string $name = null):void
   {
+    $this->updateTimeStampSession($this->time);
   }
 
   // 表示したいログをSQLに登録する
-  public function sendChatLog()
+  public function sendChatLog():void
   {
-    
- }
+
+  }
 }
