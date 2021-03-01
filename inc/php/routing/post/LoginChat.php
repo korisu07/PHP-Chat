@@ -32,8 +32,11 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
   } //end func setSession.
 
   // 表示したいログをSQLに登録する
-  public function sendChatLog(string $name, $pdo = null):void
+  public function sendChatLog(string $str, $pdo = null):void
   {
+    // ユーザー名
+    $name = $str;
+    
     if( $this->checkBool === true ) { // チェックがOKの場合
 
       // SQLに接続
