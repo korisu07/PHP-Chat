@@ -2,14 +2,15 @@
 
 class header {
 
-  // 入室していないときに表示するログインフォーム
+  // ログインフォーム
   private string $loginForm;
 
   // 入室しているときに表示される発言フォーム
   private string $chatForm;
 
-  // 入室しているときに表示されるユーザー自身の名前
-  private string $showUserName;
+  // ログアウトフォーム
+  // ユーザー自身の名前もここで表示される
+  private string $logoutForm;
 
   // ログイン中のユーザー名
   private string $setUserName;
@@ -24,53 +25,41 @@ class header {
   // construnct
   public function __construct( $userName = null ){
 
-    // ユーザー名が設定されていないとき
-    if( is_null( $userName ) || $userName === '' ){
-
-      $this->checkSetUserName = false;
-
-    } else { // ユーザー名が設定されているとき 
+    // ユーザー名が設定されているとき
+    if( isset( $userName ) && $userName !== '' ){
 
       $this->checkSetUserName = true;
       $this->setUserName = $userName;
 
+    } else { // ユーザー名が設定されていないとき 
+
+      $this->checkSetUserName = false;
+
     } // end if userName.
 
     // ログインするためのフォーム
-    $this->loginForm = '
-      <form action="./routing/user_name_routing.php" method="post" class="chat_post">
-      <div class="header_box">
-        <label for="user_name">ユーザー名：</label>
-        <input type="text" name="user_name" id="chat" maxlength="20">
-      </div>
-
-      <input type="submit" value="入室する">
-      </form>
-    ';
+    // パスはこのファイルから数えたフルパス
+    $this->loginForm = dirname(__FILE__) . '\inc_header\loginForm.php';
 
     // チャットで発言するためのフォーム
-    $this->chatForm = 
-      '<form action="./routing/user_message_routing.php" method="post" class="chat_post">
-      <div class="header_box">
-        <label for="chat_message">メッセージ：</label>
-        <input type="text" name="chat_message" id="chat" maxlength="200">
-      </div>
+    $this->chatForm = dirname(__FILE__) . '\inc_header\chatForm.php';
 
-      <input type="submit" value="発言する">
+    // session内にユーザー名が設定されているときに設定
+    if( $this->checkSetUserName ){
+
+      // ログアウトフォームをセット
+      $this->logoutForm = 
+      
+      // 入室中であるときに表示されるユーザー名
+      '<p>' . htmlspecialchars( $this->setUserName ) . '　さんとして入室中</p>' . 
+
+      // ログアウトフォーム
+      '<form action="./routing/chat_exit.php" method="post">
+        <input type="submit" name="chat_exit" id="chat_exit" value="退室する">
       </form>';
 
-    // session内にユーザー名が設定されているときに発動
-    if( $this->checkSetUserName ){
-      // 入室中であるときに表示されるユーザー名
-      $this->showUserName = 
+    } // end if set ssession,view username.
 
-      '<p>' . htmlspecialchars( $this->setUserName ) . '　さんとして入室中</p>' .
-          
-        '<form action="./routing/chat_exit.php" method="post">
-          <input type="submit" name="chat_exit" id="chat_exit" value="退室する">
-        </form>
-      </div>';
-    } // end if userList.
   } // end __construct.
 
   public function loadTextarea():void
@@ -78,17 +67,17 @@ class header {
     // ログイン中の場合に表示
     if( $this->checkSetUserName ){
 
-      echo $this->chatForm;
+      include $this->chatForm;
 
       echo '<div class="chat_user">';
-      echo $this->showUserName;
+      echo $this->logoutForm;
       // ここに入室者一覧の処理
       // echo $this->userList
       echo '</div>';
 
-    } else { // ログアウト時に表示
+    } else { // 入室していないときに表示
 
-      echo $this->loginForm;
+      include $this->loginForm;
 
     } // end if echoForm.
   } // end func loadTextarea.
