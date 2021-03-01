@@ -12,13 +12,13 @@ class SendMessage extends \Routing\Session\Update implements PostMethod
   }
 
   // セッションをセットする
-  public function setSession(string $name = null):void
+  public function setSession(string $str = null):void
   {
     $this->updateTimeStampSession($this->time);
   }
 
   // 表示したいログをSQLに登録する
-  public function sendChatLog():void
+  public function sendChatLog(string $str):void
   {
 
   }
