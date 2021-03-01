@@ -25,9 +25,10 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
   } //end __construct.
 
   // セッションをセットする
-  public function setSession(string $name):void
+  public function setSession(string $str):void
   {
-    $this->setLoginSession($name, $this->timestamp);
+    // 名前をセッションに登録する
+    $this->setLoginSession($str, $this->timestamp);
   } //end func setSession.
 
   // 表示したいログをSQLに登録する
