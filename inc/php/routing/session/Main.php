@@ -9,7 +9,7 @@ session_start();
 abstract class Main{
   
   // タイムスタンプ
-  protected string $timeStamp;
+  protected int $timestamp;
 
   // 初期設定されるセッション
   private array $firstSession;
