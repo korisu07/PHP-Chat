@@ -17,7 +17,8 @@ session_start();
     require_once dirname(__FILE__) . '/inc/php/function.php';
 
     require_once dirname(__FILE__) . '/inc/php/connect/disconnect_routing.php';
-    require_once dirname(__FILE__) . '/inc/php/routing.php';
+    require_once dirname(__FILE__) . '/inc/php/view/viewer.php';
+
   ?>
 
   <header>
@@ -39,8 +40,6 @@ session_start();
         $header->loadTextarea();
       ?>
 
-
-      <?php require_once dirname(__FILE__) . '/inc/php/view/viewer.php'; ?>
       
     </div>
   </header>
@@ -51,6 +50,15 @@ session_start();
       <div class="chat_logs_view">
 
       <?php 
+        // チャットログを表示
+        try{
+          $access_process = $pdo->prepare('SELECT * FROM chat_logs ORDER BY id DESC LIMIT 20');
+          $access_process->execute();
+
+        } catch(PDOException $e){
+          echo '<p>チャットログの表示に失敗しました。</p>';
+        }
+
         while( $sql_log_data = $access_process->fetch(PDO::FETCH_ASSOC) ){
           $viewer = new Viewer( $sql_log_data );
           $viewer->logSheet();
