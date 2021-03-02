@@ -9,10 +9,7 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
 {
   // ユーザー名
   private string $userName;
-
-  // タイムスタンプ
-  private int $timestamp;
-
+  
   // NGワードチェックの結果
   // class CheckWordから判定結果を受け渡す
   // falseであればNGワードが入っている
