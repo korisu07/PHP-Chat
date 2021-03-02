@@ -10,5 +10,5 @@ interface PostMethod{
   public function setSession(string $str):void;
 
   // 表示したいログをSQLに登録する
-  public function sendChatLog(string $str):void;
+  public function sendChatLog(string $str, $pdo):void;
 }
