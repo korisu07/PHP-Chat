@@ -7,11 +7,14 @@ require_once dirname(__FILE__) . '/Main.php';
 // ログイン時のセッション更新と、タイムスタンプ更新の処理を行うクラス
 abstract class Update extends Main{
 
+  // タイムスタンプを成形したもの
+  private string $stringTimeStamp;
+
   // 入室するときにセッションにユーザー名をセットする
   protected function setLoginSession(string $name, int $time):void
   {
     // 時刻を登録
-    $this->timeStamp = date('Y-m-d G:i:s', $time);
+    $this->stringTimeStamp = date('Y-m-d G:i:s', $time);
 
     // ランダムIDが必要になった場合、ここに関数を設定
     $random_id = '';
@@ -19,7 +22,7 @@ abstract class Update extends Main{
     $this->customSession = [
       'name' => $name,
       'random_id' => $random_id,
-      'time_stamp' => $this->timeStamp,
+      'time_stamp' => $this->stringTimeStamp,
       'error_message' => $_SESSION['data']['error_message']
     ];
 
@@ -31,9 +34,9 @@ abstract class Update extends Main{
   protected function updateTimeStampSession(int $time):void
   {
     // 時刻を登録
-    $this->timeStamp = date('Y-m-d G:i:s', $time);
+    $this->stringTimeStamp = date('Y-m-d G:i:s', $time);
     // セッションにタイムスタンプを登録
-    $_SESSION['data']['time_stamp'] = $this->timeStamp;
+    $_SESSION['data']['time_stamp'] = $this->stringTimeStamp;
     
   } //end func setTimeStampSession.
 
