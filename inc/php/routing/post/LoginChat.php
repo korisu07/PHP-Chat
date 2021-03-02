@@ -35,7 +35,7 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
   public function sendChatLog(string $str, $pdo = null):void
   {
     // ユーザー名
-    $name = $str;
+    $this->userName = $str;
     
     if( $this->checkBool === true ) { // チェックがOKの場合
 
@@ -44,7 +44,7 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
         $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:system_name, :log_message)');
 
         // ログに登録するメッセージを設定
-        $log_message = $name . 'さんが入室しました。';
+        $log_message = $this->userName . 'さんが入室しました。';
   
         // SQLに内容を埋め込み
         $statement->bindValue(':system_name', 'system', \PDO::PARAM_STR);
@@ -52,9 +52,12 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
     
         // 値の受け渡しを実行
         $statement->execute();
+
+        // エラーメッセージをリセット
+        $this->setErrorMessage('');
   
         // セッションを更新する
-        $this->setSession($name);
+        $this->setSession( $this->userName );
 
       } catch (PDOException $e){
         // エラーを受け取った場合、エラーメッセージをセッション内に登録
