@@ -8,28 +8,31 @@ use Routing\Post\LoginChat;
 use Routing\Session\FirstSession;
 use RoutingTrait\CheckWord;
 
+// セッションが設定されていない場合に、初期のセッションを設定
 if( is_null($_SESSION['data']) ){
   $firstSession = new FirstSession();
   $firstSession->setFirstSession();
 } //end if,set $_SESSION['data'].
 
+///////////////////////////////////////////////////////
+
 // 名前登録のテスト用
 // 本来は、ここに$_POST['user_name']の値が入る
-$_SESSION['data']['name'] = ' ';
+$userName = '';
 
 ///////////////////////////////////////////////////////
 
-// 名前を登録
-$userName = $_SESSION['data']['name'];
-
+// NGワードが含まれていないかをチェック
 $checkWord = new CheckWord($userName, $ng_words, 'system');
-// セッションが設定されていない場合に、初期のセッションを設定
 
+// 返り値がtrueなら投稿可能
 $bool = $checkWord->checkBool();
 
+// ログイン処理
 $loginChat = new LoginChat( $bool, $_SERVER['REQUEST_TIME']);
-$loginChat->setSession($userName);
-
+// ユーザー名をセッションにセット
+$loginChat->setSession( $userName );
+// SQLへの送信
 $loginChat->sendChatLog($userName, $pdo);
 
 // $userNameの判定チェック
