@@ -13,6 +13,7 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
   // NGワードチェックの結果
   // class CheckWordから判定結果を受け渡す
   // falseであればNGワードが入っている
+  // nullのままの場合は、なにかしらの原因で判定に失敗している
   private $checkBool;
 
   // __construct
@@ -55,6 +56,8 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
   
         // セッションを更新する
         $this->setSession( $this->userName );
+
+        unset( $statement );
 
       } catch (PDOException $e){
         // エラーを受け取った場合、エラーメッセージをセッション内に登録
