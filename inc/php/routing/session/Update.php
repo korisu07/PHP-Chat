@@ -39,5 +39,4 @@ abstract class Update extends Main{
     $_SESSION['data']['time_stamp'] = $this->stringTimeStamp;
     
   } //end func setTimeStampSession.
-
-}
+} //end abstract class Update.
