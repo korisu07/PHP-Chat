@@ -2,8 +2,8 @@
 
 namespace Routing\Post;
 
-require_once dirname(__FILE__) . '/../session/Update.php';
 require_once dirname(__FILE__) . '/interface/PostMethod.php';
+require_once dirname(__FILE__) . '/../session/Update.php';
 
 class SendMessage extends \Routing\Session\Update implements PostMethod
 {
@@ -13,6 +13,7 @@ class SendMessage extends \Routing\Session\Update implements PostMethod
   // NGワードチェックの結果
   // class CheckWordから判定結果を受け渡す
   // falseであればNGワードが入っている
+  // nullのままの場合は、なにかしらの原因で判定に失敗している
   private $checkBool;
 
   public function __construct($bool, int $time){
@@ -38,12 +39,21 @@ class SendMessage extends \Routing\Session\Update implements PostMethod
       try {
         $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:user_name, :chat_message)');
 
-        $user_name = (string) $_SESSION['data']['name'];
-  
+        // ログに表示するユーザー名を設定
+        $user_name = $_SESSION['data']['name'];
+
+        // SQLに内容を埋め込み
         $statement->bindValue(':user_name', $user_name, \PDO::PARAM_STR);
         $statement->bindValue(':chat_message', $this->messege, \PDO::PARAM_STR);
   
+        // 値の受け渡しを実行
         $statement->execute();
+
+        // エラーメッセージをリセット
+        $this->setErrorMessage('');
+
+        unset( $statement );
+
       } catch (PDOException $e) {
         // エラーを受け取った場合、エラーメッセージをセッション内に登録
         $this->setErrorMessage('エラー！発言できませんでした。しばらく経ってからお試しください。');
