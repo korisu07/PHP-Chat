@@ -21,7 +21,7 @@ class Viewer{
   public function logSheet(): void
   {
     echo '<ul>';
-    echo '<li>', $this->htmlEscape( $this->logs['user_name'] ), 'さんの発言：</li>';
+    echo '<li>', $this->htmlEscape( $this->logs['user_name'] ), ' さんの発言：</li>';
     echo '<li>', $this->htmlEscape( $this->logs['message'] ), '</li>';
     echo '<li>', $this->htmlEscape( $this->logs['date'] ), '</li>';
     echo '</ul>';
