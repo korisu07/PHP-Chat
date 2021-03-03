@@ -45,7 +45,7 @@ if( $bool ){
 $sendMessage = new SendMessage( $bool, $_SERVER['REQUEST_TIME'] );
 // セッションのタイムスタンプを更新
 $sendMessage->setSession();
-// セッション内に
+// SQLにメッセージを送信
 $sendMessage->sendChatLog( $messege, $pdo );
 
 // $messageの判定チェック
