@@ -23,13 +23,13 @@ class header {
   private bool $checkSetUserName = false;
 
   // construnct
-  public function __construct( $userName = null ){
+  public function __construct(){
 
     // ユーザー名が設定されているとき
-    if( isset( $userName ) && $userName !== '' ){
+    if( isset( $_SESSION['data']['name'] ) && $_SESSION['data']['name'] !== '' ){
 
       $this->checkSetUserName = true;
-      $this->setUserName = $userName;
+      $this->setUserName = $_SESSION['data']['name'];
 
     } else { // ユーザー名が設定されていないとき 
 
