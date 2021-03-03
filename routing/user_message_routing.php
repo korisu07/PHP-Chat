@@ -1,75 +1,48 @@
-<?php
-  require_once dirname(__FILE__) . '/../inc/php/function.php';
+<?php declare(strict_types=1);
+header('Location: /');
 
-  include dirname(__FILE__) . '/../inc/php/connect/connect.php';
-  include dirname(__FILE__) . '/../inc/php/connect/ng_word.php';
+require_once dirname(__FILE__) . '/../inc/php/routing/trait/CheckWord.php';
+require_once dirname(__FILE__) . '/../inc/php/routing/post/SendMessage.php';
 
-  header('Location: /', 307);
-  session_start();
-  
+use RoutingTrait\CheckWord;
+use Routing\Post\SendMessage;
 
-    // 発言内容がなにも入っていない場合
-    if(is_null($_POST['chat_message']) || $_POST['chat_message'] === ''){
-      $_SESSION['data']['error_message'] = '内容が入力されていません。';
-      return false;
-      exit;
-    }// 発言が入力されていた場合
-    else{
+///////////////////////////////////////////////////////
 
-    // NGワードチェック
-    $message_str = $_POST['chat_message'];
+// ユーザー名
+$userName = $_SESSION['data']['name'];
+// ユーザーが発言したい内容
+$messege = $_POST['chat_message'];
 
-    // 大文字を小文字に変換
-    $message_str = mb_strtolower($message_str, 'UTF-8');
-    // 数字を半角に、半角カタカナは全角に変換
-    $message_str = mb_convert_kana($message_str, 'KVas', 'UTF-8');
+///////////////////////////////////////////////////////
 
-    // スペース、句読点などを削除
-    $target_sentence = preg_replace('/\s|、|。/', '', $message_str);
+// ユーザー名の再チェック
+// NGワードが含まれていないかをチェック
+$checkWord = new CheckWord($userName, $ng_words, 'system');
+// 返り値がtrueなら投稿可能
+$bool = $checkWord->checkBool();
 
-    foreach ($ng_words as $ngWordsVal) {
-      // 対象文字列にキーワードが含まれるか
-      if (mb_strpos($target_sentence, $ngWordsVal) !== FALSE) {
-        // 含まれている場合は処理を停止
-        $_SESSION['data']['error_message'] = '禁止ワードが含まれています。';
-        return false;
-        exit;
-      }
-    }
+///////////////////////////////////////////////////////
 
-    // POSTメソッドが連投されていないかのチェック
-    $time_tmp = $_SESSION['data']['time_stamp'];
-    $time_tmp = strtotime('+10 second', $time_tmp);
+// ユーザー名がOKならメッセージの判定へ
+if( $bool ){
+  // NGワードが含まれていないかをチェック
+  $checkWord = new CheckWord($messege, $ng_words);
+  // 返り値がtrueなら投稿可能
+  $bool = $checkWord->checkBool();
+}
 
-    $now_timestamp = $_SERVER['REQUEST_TIME'];
+///////////////////////////////////////////////////////
 
-    // 連投対策
-    if($now_timestamp < $time_tmp){
-      $_SESSION['data']['error_message'] = '少し待ってから投稿してください。';
-      return false;
-      exit;
-    }else{
+// 判定後の結果とリクエスト時間を受け渡してインスタンス化
+$sendMessage = new SendMessage( $bool, $_SERVER['REQUEST_TIME'] );
+// セッションのタイムスタンプを更新
+$sendMessage->setSession();
 
-      $user_name = null;
-      $chat_message = null;
+// ここに連打判定の処理を追加
+$accessBool = null;
 
-      $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:user_name, :chat_message)');
+// SQLにメッセージを送信
+$sendMessage->sendChatLog( $messege, $pdo );
 
-      $user_name = (string)$_SESSION['data']['name'];
-      $chat_message = (string)$_POST['chat_message'];
-
-      $statement->bindValue(':user_name', $user_name, PDO::PARAM_STR);
-      $statement->bindValue(':chat_message', $chat_message, PDO::PARAM_STR);
-
-      $statement->execute();
-
-      unset($statement);
-
-      $time_stamp = $_SERVER['REQUEST_TIME'];
-
-      $_SESSION['data']['error_message'] = '';
-      $_SESSION['data']['time_stamp'] = $time_stamp;
-
-      exit;
-    }// ここまで - 連投対策
-  }
+///////////////////////////////////////////////////////
