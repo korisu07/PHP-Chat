@@ -1,6 +1,5 @@
 <?php 
 header("Content-type: text/html; charset=utf-8");
-session_start();
  ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -16,7 +15,6 @@ session_start();
   <?php 
     require_once dirname(__FILE__) . '/inc/php/function.php';
 
-    require_once dirname(__FILE__) . '/inc/php/connect/disconnect_routing.php';
     require_once dirname(__FILE__) . '/inc/php/connect/connect.php';
 
     require_once dirname(__FILE__) . '/inc/php/view/viewer.php';
@@ -36,11 +34,9 @@ session_start();
     <div class="container">
 
       <?php require_once dirname(__FILE__) . '/inc/php/view/header.php';
-        $userName = (string) $_SESSION['data']['name'];
-        $header = new header( $userName );
+        $header = new header();
         $header->loadTextarea();
       ?>
-
       
     </div>
   </header>
