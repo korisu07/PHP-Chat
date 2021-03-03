@@ -101,7 +101,8 @@ header::after{
 
 // ログ表示部分のレイアウト
 .chat_logs_view{
-  margin-bottom: 80px;
+  // ログ最下部を、footerの上まで底上げ
+  padding-bottom: 50px;
   ul{
     display: block;
     border-bottom:1px solid rgba(129, 194, 222, 0.5);
