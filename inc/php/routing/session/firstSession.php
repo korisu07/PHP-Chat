@@ -2,9 +2,9 @@
 
 namespace Routing\Session;
 
-require_once dirname(__FILE__) . '/Main.php';
+require_once dirname(__FILE__) . '/Update.php';
 
-class FirstSession extends Main{
+class FirstSession extends Update{
   // 初回アクセス時のセッションを設定
   public function setFirstSession():void
   {
