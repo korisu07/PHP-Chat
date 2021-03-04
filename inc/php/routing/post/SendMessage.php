@@ -31,6 +31,7 @@ class SendMessage extends \Routing\Session\Update implements PostMethod
 
   } //end __construct.
 
+  // セッションのタイムスタンプを更新する
   public function setSession(int $time)
   {
     // 名前をセッションに登録する
