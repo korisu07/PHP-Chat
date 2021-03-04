@@ -29,20 +29,22 @@ if( $bool ){
   // NGワードが含まれていないかをチェック
   $checkWord = new CheckWord($messege, $ng_words);
   // 返り値がtrueなら投稿可能
-  $bool = $checkWord->checkBool();
+  $boolWord = $checkWord->checkBool();
 }
 
 ///////////////////////////////////////////////////////
 
+// 前回の通信リクエストから1秒経過しているかを判定
+$boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'] );
+
 // 判定後の結果とリクエスト時間を受け渡してインスタンス化
-$sendMessage = new SendMessage( $bool, $_SERVER['REQUEST_TIME'] );
-// セッションのタイムスタンプを更新
-$sendMessage->setSession();
-
-// ここに連打判定の処理を追加
-$accessBool = null;
-
-// SQLにメッセージを送信
+$sendMessage = new SendMessage( $boolWord, $boolReload );
 $sendMessage->sendChatLog( $messege, $pdo );
+
+// 連投されていた場合
+if( $boolReload === false ) {
+  // セッションにエラーメッセージをセット
+  $checkReload->setErrorMessage('連投はできません。少々お待ち下さい。');
+}
 
 ///////////////////////////////////////////////////////
