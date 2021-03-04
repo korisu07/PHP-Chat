@@ -8,7 +8,7 @@ class FirstSession extends Update{
   // 初回アクセス時のセッションを設定
   public function setFirstSession():void
   {
-    $this->timestamp = date('Y-m-d G:i:s', $_SERVER['REQUEST_TIME']);
+    $this->timestamp = $_SERVER['REQUEST_TIME'];
 
     // セッションの初期設定
     $this->firstSession = [
