@@ -17,13 +17,22 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
   private $checkBool;
 
   // __construct
-  public function __construct($bool, int $time){
-    $this->checkBool = $bool;
-    $this->timestamp = $time;
+  public function __construct($boolWord, $boolReload){
+
+    // 両方の判定がOKだった場合
+    if( $boolWord === true && $boolReload === true ){
+      $this->checkBool = true;
+    } // どちらかの判定に失敗して、nullが格納された場合
+    else if ( $boolWord === null || $boolReload === null ){
+      $this->checkBool = null;
+    } else { // 判定がfalseだった場合
+      $this->checkBool = false;
+    }
+
   } //end __construct.
 
   // セッションをセットする
-  public function setSession(string $str):void
+  public function setSession(string $str)
   {
     // 名前をセッションに登録する
     $this->setLoginSession($str);
@@ -54,7 +63,7 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
         // エラーメッセージをリセット
         $this->setErrorMessage('');
   
-        // セッションを更新する
+        // セッションにユーザー名をセットする
         $this->setSession( $this->userName );
 
         unset( $statement );
