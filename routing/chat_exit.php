@@ -1,44 +1,28 @@
-<?php
-  header('Location: /', 307);
+<?php declare(strict_types=1);
+header('Location: /');
 
-  require_once dirname(__FILE__) . '/../inc/php/function.php';
+require_once dirname(__FILE__) . '/../inc/php/routing/post/ExitChat.php';
 
-  include dirname(__FILE__) . '/../inc/php/connect/connect.php';
+use Routing\Post\ExitChat;
 
-// 退出ボタンを押した場合
-  if( isset($_POST['chat_exit']) ){
+///////////////////////////////////////////////////////
 
-    $logout_time_tmp = $_SESSION['data']['time_stamp'];
-    $logout_time_tmp = strtotime('+5 second', $logout_time_tmp);
+// ユーザー名
+$userName = $_SESSION['data']['name'];
 
-    $logout_req_time = $_SERVER['REQUEST_TIME'];
+///////////////////////////////////////////////////////
 
-    // 連投対策
-    if($logout_req_time < $logout_time_tmp){
-      $_SESSION['data']['error_message'] = '少し待ってから、退室してください。';
-      return false;
-      exit;
-    }else{
+// 前回の通信リクエストから1秒経過しているかを判定
+$boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'], '+5 second' );
 
-      $logout_user = null;
-      $logout_user = $_SESSION['data']['name'];
+// ログアウト処理
+$exitChat = new ExitChat( $boolReload );
+$exitChat->sendChatLog( $userName, $pdo );
 
-      $statement = $pdo->prepare('INSERT INTO chat_logs(`user_name`, `message`) VALUES(:system_name, :log_message)');
+// 連投されていた場合
+if( $boolReload === false ) {
+  // セッションにエラーメッセージをセット
+  $checkReload->setErrorMessage('少し待ってから、退室してください。');
+}
 
-
-      $log_message = null;
-      $log_message = $logout_user . ' さんが退室しました。';
-  
-      $statement->bindValue(':system_name', 'system', PDO::PARAM_STR);
-      $statement->bindValue(':log_message', $log_message, PDO::PARAM_STR);
-
-      $statement->execute();
-      
-      $_SESSION['data']['name'] = '';
-      $_SESSION['data']['random_id'] = '';
-      $_SESSION['data']['error_message'] = '';
-
-      exit;
-    }
-
-    }// ここまで - 退出ボタンを押した場合
+///////////////////////////////////////////////////////
