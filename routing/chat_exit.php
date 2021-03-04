@@ -35,15 +35,9 @@
 
       $statement->execute();
       
-      $_SESSION['data'] = [
-        'name' => '',
-        'random_id' => '',
-        'time_stamp' => '',
-        'error_message' => '',
-        'reload_time_stamp' => $_SESSION['data']['reload_time_stamp'],
-        'reload_count' => $_SESSION['data']['reload_count']
-      ];
-
+      $_SESSION['data']['name'] = '';
+      $_SESSION['data']['random_id'] = '';
+      $_SESSION['data']['error_message'] = '';
 
       exit;
     }
