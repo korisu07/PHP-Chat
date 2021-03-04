@@ -22,7 +22,7 @@ $boolWord = $checkWord->checkBool();
 ///////////////////////////////////////////////////////
 
 // 前回の通信リクエストから1秒経過しているかを判定
-$boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'] );
+$boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'], '+10 second' );
 // ログイン処理
 $loginChat = new LoginChat( $boolWord, $boolReload );
 $loginChat->sendChatLog( $userName, $pdo );

@@ -35,7 +35,7 @@ if( $bool ){
 ///////////////////////////////////////////////////////
 
 // 前回の通信リクエストから1秒経過しているかを判定
-$boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'] );
+$boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'], '+10 second' );
 
 // 判定後の結果とリクエスト時間を受け渡してインスタンス化
 $sendMessage = new SendMessage( $boolWord, $boolReload );
