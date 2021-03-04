@@ -58,14 +58,14 @@ class SendMessage extends \Routing\Session\Update implements PostMethod
         $statement->bindValue(':chat_message', $this->messege, \PDO::PARAM_STR);
   
         // 値の受け渡しを実行
-        $statement->execute();
+        $statement->execute();        
+        // SQLへの接続を終了
+        unset( $statement );
 
         // タイムスタンプを更新
         $this->setSession( $_SERVER['REQUEST_TIME'] );
         // エラーメッセージをリセット
         $this->setErrorMessage('');
-
-        unset( $statement );
 
       } catch (PDOException $e) {
         // エラーを受け取った場合、エラーメッセージをセッション内に登録

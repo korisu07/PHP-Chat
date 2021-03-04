@@ -59,14 +59,14 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
     
         // 値の受け渡しを実行
         $statement->execute();
+        // SQLへの接続を終了
+        unset( $statement );
 
         // エラーメッセージをリセット
         $this->setErrorMessage('');
   
         // セッションにユーザー名をセットする
         $this->setSession( $this->userName );
-
-        unset( $statement );
 
       } catch (PDOException $e){
         // エラーを受け取った場合、エラーメッセージをセッション内に登録
