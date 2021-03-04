@@ -1,6 +1,5 @@
 <?php
   header('Location: /', 307);
-  session_start();
 
   require_once dirname(__FILE__) . '/../inc/php/function.php';
 
@@ -28,7 +27,7 @@
 
 
       $log_message = null;
-      $log_message = $logout_user . 'さんが退室しました。';
+      $log_message = $logout_user . ' さんが退室しました。';
   
       $statement->bindValue(':system_name', 'system', PDO::PARAM_STR);
       $statement->bindValue(':log_message', $log_message, PDO::PARAM_STR);
