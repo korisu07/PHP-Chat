@@ -21,11 +21,6 @@ class SendMessage extends \Routing\Session\Update implements PostMethod
     $this->timestamp = $time;
   } //end __construct.
 
-  // セッションをセットする
-  public function setSession(string $str = null):void
-  {
-    $this->updateTimeStampSession($this->timestamp);
-  } //end func setSession.
 
   // 表示したいログをSQLに登録する
   public function sendChatLog(string $str, $pdo):void
