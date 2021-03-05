@@ -37,12 +37,35 @@ class header {
 
     } // end if userName.
 
+    //////////////////////////////////////////////////////////////
+
     // ログインするためのフォーム
-    // パスはこのファイルから数えたフルパス
-    $this->loginForm = dirname(__FILE__) . '\inc_header\loginForm.php';
+    $this->loginForm = '
+
+    <form action="./routing/user_name_routing.php" method="post" class="chat_post" id="user_name">
+      <div class="header_box">
+        <label for="user_name">ユーザー名：</label>
+        <input type="text" name="user_name" id="chat" maxlength="20" form="user_name">
+      </div>
+
+      <input type="submit" value="入室する" for="user_name" form="user_name">
+    </form>';
+
+    //////////////////////////////////////////////////////////////
 
     // チャットで発言するためのフォーム
-    $this->chatForm = dirname(__FILE__) . '\inc_header\chatForm.php';
+    $this->chatForm = '
+
+    <form action="./routing/user_message_routing.php" method="post" class="chat_post" id="chat_message">
+      <div class="header_box">
+        <label for="chat_message">メッセージ：</label>
+        <input type="text" name="chat_message" id="chat" maxlength="200" form="chat_message">
+      </div>
+
+      <input type="submit" value="発言する" for="chat_message" form="chat_message">
+    </form>';
+    
+    //////////////////////////////////////////////////////////////
 
     // session内にユーザー名が設定されているときに設定
     if( $this->checkSetUserName ){
@@ -67,7 +90,7 @@ class header {
     // ログイン中の場合に表示
     if( $this->checkSetUserName ){
 
-      include $this->chatForm;
+      echo $this->chatForm;
 
       echo '<div class="chat_user">';
       echo $this->logoutForm;
@@ -77,7 +100,7 @@ class header {
 
     } else { // 入室していないときに表示
 
-      include $this->loginForm;
+      echo $this->loginForm;
 
     } // end if echoForm.
   } // end func loadTextarea.
