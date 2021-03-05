@@ -29,16 +29,16 @@ foreach ($test_words as $key => $value) {
   if( $value === $bool ){
     // testがOKな場合
     // テスト結果を出力
-    echo
-    '<p>「', $key, '」のテスト結果：OK! 正しくワードがチェックされました！<br>
-    判定結果は：' , var_dump($bool) , 'です。</p>';
+    echo '<p>「', $key, '」のテスト結果：<br>
+    ★OK! 正しくワードがチェックされました！<br>
+    判定結果は：' , var_dump($bool) , 'です。</p><HR>';
   } else {
     // testがNGな場合
     // テスト結果を出力
-    echo '<p>「', $key, '」のテスト結果：NG... ワードのチェックに失敗しました…。<br>
-    判定結果は：' . var_dump($bool) . 'です。</p>';
+    echo '<p>「', $key, '」のテスト結果：<br>
+    ■NG... ワードのチェックに失敗しました…。<br>
+    判定結果は：' , var_dump($bool) , 'です。</p><HR>';
   } //end if test.
+} //end foreach, CheckWord.
 
-  // テスト結果を出力
-
-} //end foreach.
+///////////////////////////////////////////////////////////////////////
