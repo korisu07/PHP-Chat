@@ -24,13 +24,13 @@ require_once dirname(__FILE__) . '/inc/php/view/header.php';
       $_SESSION['data']['error_message'] ,
       '</div></div>';
     } //end if, Error message.
-  ?><!-- PHP -->
+  ?>
 
   <div class="container">
     <?php // header内のテキストボックスを表示
       $header = new header();
       $header->loadTextarea();
-    ?><!-- PHP -->
+    ?>
   </div>
   </header>
   
@@ -54,7 +54,7 @@ require_once dirname(__FILE__) . '/inc/php/view/header.php';
           $viewer = new Viewer( $sql_log_data );
           $viewer->logSheet();
         }//end while.
-      ?><!-- PHP -->
+      ?>
       </div> <!-- /.chat_logs_view -->
     </div> <!-- /.container -->
   </article>
