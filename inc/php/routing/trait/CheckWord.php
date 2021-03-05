@@ -44,9 +44,13 @@ class CheckWord extends \Routing\Session\Main
     // 入力されていて、かつスペースのみではない場合
     if( isset( $removedSpace ) && $removedSpace !== '' )
     {
+      // trueを格納
       $this->boolNotEmpty = true;
+      // 空白を除去した文字列に更新
+      $this->str = $removedSpace;
     }
     else { // 空欄か、スペースのみの文字列である場合
+      // falseを格納
       $this->boolNotEmpty = false;
     }
   } //end func checkNotEmpty.
@@ -58,6 +62,12 @@ class CheckWord extends \Routing\Session\Main
     // チェックの結果。引っかからなければtrueを返す
     // 判定がうまくいかなかった場合、nullを返す
     $result = null;
+
+    // チェック前に、文字列を整える
+    // 大文字を小文字に変換
+    $this->str = mb_strtolower($this->str, 'UTF-8');
+    // 数字を半角に、半角カタカナは全角に変換
+    $this->str = mb_convert_kana($this->str, 'KVas', 'UTF-8');
     
     // 内容が入力されている場合、NGワードがないかを判定する
     if( $this->boolNotEmpty ){
@@ -67,18 +77,20 @@ class CheckWord extends \Routing\Session\Main
         if (mb_strpos($this->str, $ngWordsStr) !== FALSE) {
           $result = false;
           $this->setErrorMessage('エラー！禁止ワードが含まれています。');
-        } //end if NGワードあり判定
-      } //end foreach ワードチェック処理
+        } //end if, NG word is existed in str.
+      } //end foreach, Word was checked.
 
-      // $resultにfalseが格納されていなければ、trueを格納させる
+      // foreach内のチェックに引っかかっていなければ、trueを格納させる
       if( $result !== false ){
         $result = true;
-      } // end if NGワードなし判定
+      } // end if, Str passed the check.
+
     //////////////////////////////////////////////////////////////
+
     } else { // 内容が入力されていない場合
       $result = null;
       $this->setErrorMessage('内容が入力されていません。また、スペースのみの入力はできません。');
-    }
+    } //end if, Word was checked.
 
     // 結果を返す
     return $result;
