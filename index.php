@@ -27,7 +27,8 @@ require_once dirname(__FILE__) . '/inc/php/view/header.php';
   ?>
 
   <div class="container">
-    <?php // header内のテキストボックスを表示
+    <?php
+      // header内のテキストボックスを表示
       $header = new header();
       $header->loadTextarea();
     ?>
@@ -61,7 +62,7 @@ require_once dirname(__FILE__) . '/inc/php/view/header.php';
 
   <footer>
     <div class="container">
-      chat.app 2020 - <?= date('Y') ?>.
+      chat.app 2020 - <?= date('Y') ?>
     </div> <!-- /.container -->
   </footer>
 </body>
