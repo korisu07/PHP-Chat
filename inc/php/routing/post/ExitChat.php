@@ -10,17 +10,20 @@ class ExitChat extends \Routing\Session\Update implements PostMethod
   // ユーザー名
   private string $userName;
 
+
   // 連投判定
   // 判定用クラスから判定結果を受け渡す
   // falseであればNGワードが入っている
   // nullのままの場合は、なにかしらの原因で判定に失敗している
   private $checkBool;
 
+
   // __construct
   public function __construct( $boolReload ){
     // 判定結果を格納
     $this->checkBool = $boolReload;
   } //end __construct.
+
 
   // ログアウト処理の際、セッションをリセットさせる
   public function resetSession(int $time):void
@@ -30,6 +33,7 @@ class ExitChat extends \Routing\Session\Update implements PostMethod
     $_SESSION['data']['time_stamp'] = $time;
   } //end func setSession.
 
+  
   // 表示したいログをSQLに登録する
   public function sendChatLog(string $str, $pdo):void
   {
