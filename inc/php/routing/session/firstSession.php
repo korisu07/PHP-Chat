@@ -15,7 +15,9 @@ class FirstSession extends Update{
       'name' => '',
       'random_id' => '',
       'time_stamp' => $this->timestamp,
-      'error_message' => ''
+      'error_message' => '',
+      // 一番始めのアクションであることを証明するフラグ
+      'first_action' => 'true'
     ];
 
     $_SESSION['data'] = $this->firstSession;
