@@ -10,26 +10,33 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
   // ユーザー名
   private string $userName;
   
+  
   // NGワードチェックの結果
   // class CheckWordから判定結果を受け渡す
   // falseであればNGワードが入っている
   // nullのままの場合は、なにかしらの原因で判定に失敗している
   private $checkBool;
 
+
   // __construct
   public function __construct($boolWord, $boolReload){
 
     // 両方の判定がOKだった場合
     if( $boolWord === true && $boolReload === true ){
+      // trueを格納
       $this->checkBool = true;
+
     } // どちらかの判定に失敗して、nullが格納された場合
     else if ( $boolWord === null || $boolReload === null ){
+      // nullを格納尾
       $this->checkBool = null;
-    } else { // 判定がfalseだった場合
-      $this->checkBool = false;
-    }
 
+    } else { // 判定がfalseだった場合
+      // falseを格納
+      $this->checkBool = false;
+    } //end if, bool.
   } //end __construct.
+
 
   // セッションをセットする
   public function setSession(string $str)
@@ -37,6 +44,7 @@ class LoginChat extends \Routing\Session\Update implements PostMethod
     // 名前をセッションに登録する
     $this->setLoginSession($str);
   } //end func setSession.
+
 
   // 表示したいログをSQLに登録する
   public function sendChatLog(string $str, $pdo):void
