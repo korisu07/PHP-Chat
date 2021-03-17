@@ -19,10 +19,4 @@ $boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'], '+5 sec
 $exitChat = new ExitChat( $boolReload );
 $exitChat->sendChatLog( $userName, $pdo );
 
-// 連投されていた場合
-if( $boolReload === false ) {
-  // セッションにエラーメッセージをセット
-  $checkReload->setErrorMessage('少し待ってから、退室してください。');
-}
-
 ///////////////////////////////////////////////////////
