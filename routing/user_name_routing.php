@@ -23,12 +23,14 @@ $boolWord = $checkWord->checkBool();
 
 // 前回の通信リクエストから1秒経過しているかを判定
 $boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'], '+10 second' );
-// ログイン処理
+
+// NGワードの判定とリクエストの判定を受け渡して、インスタンス化
 $loginChat = new LoginChat( $boolWord, $boolReload );
+// 送信したいメッセージを登録
 $loginChat->sendChatLog( $userName, $pdo );
 
 // 連投されていた場合
-if( $boolReload === false ) {
+if( $boolReload === false && $_SESSION['data']['error_message'] === '' ) {
   // セッションにエラーメッセージをセット
   $checkReload->setErrorMessage('連投はできません。少々お待ち下さい。');
 }

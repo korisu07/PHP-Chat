@@ -37,12 +37,13 @@ if( $bool ){
 // 前回の通信リクエストから1秒経過しているかを判定
 $boolReload = $checkReload->JudgeRepeatedHits( $_SERVER['REQUEST_TIME'], '+10 second' );
 
-// 判定後の結果とリクエスト時間を受け渡してインスタンス化
+// NGワードの判定とリクエストの判定を受け渡して、インスタンス化
 $sendMessage = new SendMessage( $boolWord, $boolReload );
+// 送信したいメッセージを登録
 $sendMessage->sendChatLog( $messege, $pdo );
 
 // 連投されていた場合
-if( $boolReload === false ) {
+if( $boolReload === false && $_SESSION['data']['error_message'] === '' ) {
   // セッションにエラーメッセージをセット
   $checkReload->setErrorMessage('連投はできません。少々お待ち下さい。');
 }
