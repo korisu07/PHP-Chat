@@ -32,7 +32,7 @@ $loginChat->sendChatLog( $userName, $pdo );
 // 連投されていた場合
 if( $boolReload === false && $_SESSION['data']['error_message'] === '' ) {
   // セッションにエラーメッセージをセット
-  $checkReload->setErrorMessage('連投はできません。少々お待ち下さい。');
+  $checkReload->setErrorMessage('時間をあけてから入室してください。');
 }
 
 
