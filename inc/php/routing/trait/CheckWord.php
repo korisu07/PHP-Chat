@@ -57,6 +57,7 @@ class CheckWord extends \Routing\Session\Main
 
 
   // NGワードが含まれていないことをチェックする
+  // ※意図的にnullを返す分岐があるため、型の指定を外しています。
   public function checkBool()
   {
     // チェックの結果。引っかからなければtrueを返す
@@ -70,6 +71,7 @@ class CheckWord extends \Routing\Session\Main
     $this->str = mb_convert_kana($this->str, 'KVas', 'UTF-8');
     
     // 内容が入力されている場合、NGワードがないかを判定する
+    // まずは、空白のみではないことを確認
     if( $this->boolNotEmpty ){
 
       foreach ($this->ngWords as $ngWordsStr) {
@@ -87,8 +89,8 @@ class CheckWord extends \Routing\Session\Main
 
     //////////////////////////////////////////////////////////////
 
-    } else { // 内容が入力されていない場合
-      $result = null;
+    } else { // 内容が入力されていない場合。もしくは空白のみである場合
+      $result = false;
       $this->setErrorMessage('内容が入力されていません。また、スペースのみの入力はできません。');
     } //end if, Word was checked.
 
