@@ -17,7 +17,8 @@ abstract class Update extends Main{
       'name' => $name,
       'random_id' => $random_id,
       'time_stamp' => $_SESSION['data']['time_stamp'],
-      'error_message' => $_SESSION['data']['error_message']
+      'error_message' => $_SESSION['data']['error_message'],
+      'first_action' => 'false'
     ];
 
     // セッションを更新
@@ -31,6 +32,7 @@ abstract class Update extends Main{
     $this->timestamp = $time;
     // セッションにタイムスタンプを登録
     $_SESSION['data']['time_stamp'] = $this->timestamp;
+    $_SESSION['data']['first_action'] = 'false';
     
   } //end func setTimeStampSession.
 } //end abstract class Update.
