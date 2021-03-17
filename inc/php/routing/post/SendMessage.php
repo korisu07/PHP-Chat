@@ -21,13 +21,22 @@ class SendMessage extends \Routing\Session\Update implements PostMethod
 
     // 両方の判定がOKだった場合
     if( $boolWord === true && $boolReload === true ){
+
+      // trueを格納
       $this->checkBool = true;
+
     } // どちらかの判定に失敗して、nullが格納された場合
     else if ( $boolWord === null || $boolReload === null ){
+
+      // nullを格納尾
       $this->checkBool = null;
+
     } else { // 判定がfalseだった場合
+
+      // falseを格納
       $this->checkBool = false;
-    }
+      
+    } //end if, bool.
 
   } //end __construct.
 
